@@ -30,6 +30,7 @@
   },
   "homepage": "https://sweetalert.js.org/",
   "devDependencies": {
+    "@sweetalert/with-react": "^0.1.1",
     "@types/jest": "19.2.3",
     "autoprefixer": "6.7.7",
     "babel-core": "6.24.1",
@@ -62,9 +63,8 @@
     "react": "15.5.4",
     "react-dom": "15.5.4",
     "source-map-loader": "0.2.1",
-    "sweetalert": "file:./",
-    "@sweetalert/with-react": "^0.1.1",
     "style-loader": "0.18.2",
+    "sweetalert": "file:",
     "ts-jest": "19.0.14",
     "ts-loader": "2.0.3",
     "tslint": "5.1.0",

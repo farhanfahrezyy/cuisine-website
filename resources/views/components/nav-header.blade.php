@@ -6,11 +6,19 @@
                 <a class="uk-navbar-item uk-logo text-red-500" href="{{ route('home') }}">Cuisiné</a>
                 <!-- Desktop Navigation -->
                 <ul class="uk-navbar-nav uk-visible@m uk-margin-large-left">
-                    <li class="uk-active"><a href="{{ route('home') }}">Home</a></li>
-                    <li><a href="{{ route('articles') }}">Article</a></li>
-                    <li><a href="{{ route('about') }}">About Us</a></li>
-                    <li><a href="{{ route('contact') }}">Contact</a></li>
-                </ul>
+    <li class="{{ request()->routeIs('home') ? 'uk-active' : '' }}">
+        <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-red-600' : '' }}">Home</a>
+    </li>
+    <li class="{{ request()->routeIs('articles') ? 'uk-active' : '' }}">
+        <a href="{{ route('articles') }}" class="{{ request()->routeIs('articles') ? 'text-red-600' : '' }}">Article</a>
+    </li>
+    <li class="{{ request()->routeIs('about') ? 'uk-active' : '' }}">
+        <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'text-red-600' : '' }}">About Us</a>
+    </li>
+    <li class="{{ request()->routeIs('contact') ? 'uk-active' : '' }}">
+        <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'text-red-600' : '' }}">Contact</a>
+    </li>
+</ul>
             </div>
 
             <!-- Right Side Navigation -->
@@ -130,11 +138,19 @@
         </div>
 
         <!-- Mobile Navigation Links -->
-        <ul class="uk-nav uk-nav-primary uk-nav-divider uk-margin-auto-vertical">
-            <li class="uk-active"><a href="{{ route('home') }}">Home</a></li>
-            <li><a href="{{ route('articles') }}">Article</a></li>
-            {{-- <li><a href="#">Search</a></li> --}}
-            <li><a href="{{ route('about') }}">Contact</a></li>
+        <ul class="uk-nav uk-nav-primary uk-nav-divider uk-margin-auto-vertical ">
+            <li class="{{ request()->routeIs('home') ? 'uk-active' : '' }}">
+                <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-red-600' : '' }}">Home</a>
+            </li>
+            <li class="{{ request()->routeIs('articles') ? 'uk-active' : '' }}">
+                <a href="{{ route('articles') }}" class="{{ request()->routeIs('articles') ? 'text-red-600' : '' }}">Article</a>
+            </li>
+            <li class="{{ request()->routeIs('about') ? 'uk-active' : '' }}">
+                <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'text-red-600' : '' }}">About Us</a>
+            </li>
+            <li class="{{ request()->routeIs('contact') ? 'uk-active' : '' }}">
+                <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'text-red-600' : '' }}">Contact</a>
+            </li>
         </ul>
 
         <!-- Mobile User Section -->
