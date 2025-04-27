@@ -5,8 +5,8 @@
 <style>
     .rating {
         display: flex;
-        flex-direction: row; /* Change to row-reverse for proper rating behavior */
-        justify-content: flex-start;
+        flex-direction: row-reverse; /* Change to row-reverse for proper rating behavior */
+        justify-content: flex-end;
         gap: 4px;
     }
 
