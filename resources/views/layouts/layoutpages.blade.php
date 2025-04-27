@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
 
      <script src="https://cdn.tailwindcss.com">
-    @vite(['resources/css/app.css'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
