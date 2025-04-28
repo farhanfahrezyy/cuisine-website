@@ -66,7 +66,7 @@
 <script>
     function openWhatsApp() {
         const phoneNumber = document.getElementById('phone-number').textContent.replace(/\D/g, '');
-        window.open(`https://wa.me/${phoneNumber}`, '_blank');
+        window.open(`https://wa.me/${081234567890}`, '_blank');
     }
 
     function sendMessage() {

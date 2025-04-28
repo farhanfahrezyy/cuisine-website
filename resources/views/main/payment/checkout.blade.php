@@ -15,7 +15,7 @@
                     </h2>
 
                     <div class="flex items-start gap-4 pb-4 border-b border-gray-200">
-                        @php
+                        {{-- @php
                             $defaultImage = 'default-recipe.jpg';
                             $imagePath = $recipe->image ?? $defaultImage;
                             $fullPath = storage_path('app/public/recipes/' . $imagePath);
@@ -32,12 +32,10 @@
                                     }
                                 }
                             }
-                        @endphp
+                        @endphp --}}
                         <div class="image-container">
-                            <img class="uk-border-rounded-medium" src="{{ asset('storage/recipes/' . $imagePath) }}"
-                                alt="{{ $recipe->name }}"
-                                onerror="this.src='{{ asset('storage/recipes/' . $defaultImage) }}'"
-                                style="width: 100px; height: 100px; object-fit: cover;">
+                            <img src="{{ asset('storage/' . $recipe->image) }}" alt="{{ $recipe->name }}"
+             class="uk-width-1-1" width="580" height="380">
                         </div>
 
                         <div class="mt-2">

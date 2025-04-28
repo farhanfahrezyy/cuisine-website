@@ -153,7 +153,7 @@ class CatalogController extends Controller
 
     // If recipe is free, show it directly
     if ($recipe->price == 0) {
-        return view('main.recipe.detail', compact('recipe', 'reviews'));
+        return view('main.Recipe.detail', compact('recipe', 'reviews'));
     }
 
     // If not logged in, redirect to login
@@ -167,7 +167,7 @@ class CatalogController extends Controller
 
     if ($purchaseStatus === 'approved') {
         // If approved, show recipe
-        return view('main.recipe.detail', compact('recipe', 'reviews'));
+        return view('main.Recipe.detail', compact('recipe', 'reviews'));
     } else if ($purchaseStatus === 'pending') {
         // If pending, redirect to payment status page
         return redirect()->route('payment.show', $recipe->id);
