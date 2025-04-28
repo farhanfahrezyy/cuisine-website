@@ -4,7 +4,7 @@
 
 @push('style')
     <style>
-        //* Header Styling */
+        /* Header Section */
         .section-header {
             background-color: #f3c0c7;
             /* Light pink background */

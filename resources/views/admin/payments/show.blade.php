@@ -10,45 +10,45 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
             margin-bottom: 25px;
         }
-        
+
         .card-header {
             background-color: #f8f9fa;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             padding: 15px 20px;
         }
-        
+
         .card-header h5 {
             margin: 0;
             font-weight: 600;
             color: #333;
         }
-        
+
         .card-body {
             padding: 20px;
         }
-        
+
         /* Info rows */
         .info-row {
             display: flex;
             border-bottom: 1px solid #f2f2f2;
             padding: 12px 0;
         }
-        
+
         .info-row:last-child {
             border-bottom: none;
         }
-        
+
         .info-label {
             width: 30%;
             color: #6c757d;
             font-weight: 500;
         }
-        
+
         .info-value {
             width: 70%;
             font-weight: 400;
         }
-        
+
         /* Badge styling */
         .badge {
             padding: 6px 10px;
@@ -56,54 +56,54 @@
             font-weight: 500;
             font-size: 12px;
         }
-        
+
         .bg-warning {
             background-color: #ffc107;
             color: #212529;
         }
-        
+
         .bg-success {
             background-color: #28a745;
             color: white;
         }
-        
+
         .bg-danger {
             background-color: #dc3545;
             color: white;
         }
-        
+
         /* Button styling */
         .btn-primary {
             background-color: #eb4a36;
             border-color: #eb4a36;
         }
-        
+
         .btn-primary:hover {
             background-color: #d25d4e;
             border-color: #d25d4e;
         }
-        
+
         .btn-outline-secondary {
             color: #6c757d;
             border-color: #6c757d;
         }
-        
+
         .btn-outline-secondary:hover {
             background-color: #6c757d;
             color: #fff;
         }
-        
+
         /* Recipe item */
         .recipe-item {
             display: flex;
             padding: 15px;
             border-bottom: 1px solid #f2f2f2;
         }
-        
+
         .recipe-item:last-child {
             border-bottom: none;
         }
-        
+
         .recipe-img {
             width: 80px;
             height: 80px;
@@ -111,28 +111,28 @@
             border-radius: 6px;
             margin-right: 15px;
         }
-        
+
         .recipe-info {
             flex: 1;
         }
-        
+
         .recipe-title {
             font-weight: 600;
             margin-bottom: 5px;
         }
-        
+
         .recipe-price {
             color: #6c757d;
             margin-bottom: 10px;
         }
-        
+
         /* Action buttons */
         .action-buttons {
             display: flex;
             gap: 10px;
             margin-top: 20px;
         }
-        
+
         /* Section headers */
         .section-header {
             display: flex;
@@ -142,13 +142,13 @@
             padding-bottom: 20px;
             border-bottom: 1px solid #f2f2f2;
         }
-        
+
         .section-title {
             font-size: 24px;
             font-weight: 700;
             margin: 0;
         }
-        
+
         /* Payment proof */
         .payment-proof-img {
             max-width: 100%;
@@ -156,7 +156,7 @@
             border-radius: 6px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
-        
+
         .proof-upload-form {
             margin-top: 20px;
             padding: 20px;
@@ -251,10 +251,10 @@
                                             <option value="rejected" {{ $payment->status == 'rejected' ? 'selected' : '' }}>Ditolak</option>
                                         </select>
                                     </div>
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <label for="admin_notes">Catatan Admin (opsional)</label>
                                         <textarea class="form-control" id="admin_notes" name="admin_notes" rows="3">{{ $payment->admin_notes ?? '' }}</textarea>
-                                    </div>
+                                    </div> --}}
                                     <button type="submit" class="btn btn-primary">Update Status</button>
                                 </form>
                             </div>

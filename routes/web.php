@@ -77,29 +77,25 @@ Route::prefix('admin')->name('admin.')->middleware(['preventBackHistory'])->grou
         });
     });
 });
-Route::prefix('user')->name('user.')->middleware(['preventBackHistory'])->group(function () {
-
-    Route::get('/dashboard', [AuthControllers::class, 'dashboard'])->name('dashboard');
-    Route::get('/recommendations', [RecommendationController::class, 'index'])->name('recommendations.index');
-    Route::get('/myrecipe', [PurchasedRecipeController::class, 'index'])->name('myrecipes.index');
-
-
-    Route::get('/preferences', function () {
-        return view('main.home');
-    })->name('user-p');
-
-    Route::post('/preferences', [UserPreferenceController::class, 'store'])->name('preferences.store');
-    Route::post('/logout', [AuthControllers::class, 'logout'])->name('logout');
+Route::prefix('user')->name('user.')->middleware(['preventBackHistory', 'BlockAdminAccess'])->group(function () {
+    // Route publik (login, register)
     Route::middleware(['guest:web'])->group(function () {
         Route::get('/login', [AuthControllers::class, 'showLoginForm'])->name('login.form');
         Route::get('/register', [AuthControllers::class, 'showRegisterForm'])->name('register.form');
-        Route::get('/recipe/{recipe}', [RecipeController::class, 'show'])->name('show');
         Route::post('/register', [AuthControllers::class, 'register'])->name('register.submit');
-
-        // Proses login dan register
         Route::post('/login', [AuthControllers::class, 'login'])->name('login.submit');
-        // Route::post('/preferences', [UserPreferenceController::class, 'store'])->name('preferences.store');
-        // Route::get('/preferences', function () { return view('main.home');})->name('user-p');
+    });
+
+    // Route yang membutuhkan auth
+    Route::middleware(['auth:web'])->group(function () {
+        Route::get('/dashboard', [AuthControllers::class, 'dashboard'])->name('dashboard');
+        Route::get('/recommendations', [RecommendationController::class, 'index'])->name('recommendations.index');
+        Route::get('/myrecipe', [PurchasedRecipeController::class, 'index'])->name('myrecipes.index');
+        Route::get('/preferences', function () {
+            return view('main.home');
+        })->name('user-p');
+        Route::post('/preferences', [UserPreferenceController::class, 'store'])->name('preferences.store');
+        Route::post('/logout', [AuthControllers::class, 'logout'])->name('logout');
     });
 });
 Route::middleware('preventBackHistory')->group(function () {
@@ -111,7 +107,7 @@ Route::middleware('preventBackHistory')->group(function () {
     });
 
 
-    Route::middleware(['auth'])->group(function () {
+    Route::middleware(['auth:web'])->group(function () {
         // User payment routes
         Route::get('/main/payments', [App\Http\Controllers\PaymentController::class, 'index'])->name('payment.index');
         Route::get('/payment/view/{id}', [App\Http\Controllers\PaymentController::class, 'showRecipePayment'])->name('payment.show');
@@ -172,13 +168,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     // Route::get('/payments', [App\Http\Controllers\PaymentController::class, 'adminIndex'])->name('admin.payment.index');
     // Route::get('/payment/{id}', [App\Http\Controllers\PaymentController::class, 'adminShow'])->name('admin.payment.show');
 
-});
+});Route::get('/my-recipes', [PaymentItemController::class, 'index'])->name('payment.items.index');
 
 // Update RecipeController routes to use new system
 // web.php
 // Route::get('/recipe/{id}', [RecipeController::class, 'show'])->name('recipes.show');
 // Route::get('/recipe/payment/{id}', [PaymentController::class, 'showRecipePayment'])->name('recipe.payment.show');
-Route::get('/my-recipes', [PaymentItemController::class, 'index'])->name('payment.items.index');
+
 
 // Route::get('/login', function () {
 //     return view('auth.login');

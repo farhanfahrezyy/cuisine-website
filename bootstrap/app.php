@@ -12,6 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware-> alias([
+            'admin' => \App\Http\Middleware\AdminMiddleware::class,
             'preventBackHistory' => \App\Http\Middleware\PreventBackAfterLogout::class,
             'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
             'checkRole' => \App\Http\Middleware\CheckRole::class,

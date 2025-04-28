@@ -286,9 +286,9 @@
                                             </td>
                                             <td class="text-center">
                                                 <div class="action-buttons">
-                                                    <a href="{{ route('admin.payments.edit', $payment->id) }}" class="btn btn-sm btn-info">
+                                                    {{-- <a href="{{ route('admin.payments.edit', $payment->id) }}" class="btn btn-sm btn-info">
                                                         <i class="fas fa-edit"></i> Edit
-                                                    </a>
+                                                    </a> --}}
                                                     <a href="{{ route('admin.payments.show', $payment->id) }}" class="btn btn-sm btn-primary">
                                                         <i class="fas fa-eye"></i> Detail
                                                     </a>

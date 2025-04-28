@@ -9,35 +9,72 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RedirectIfAuthenticated
 {
+    /**
+     * Role constants untuk menghindari string literals
+     */
+    private const ROLE_ADMIN = 'admin';
+    private const ROLE_USER = 'user';
+
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @param  string[]  ...$guards
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {
         $guards = empty($guards) ? [null] : $guards;
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                $user = Auth::guard($guard)->user();
+                $currentUser = Auth::guard($guard)->user();
+                $currentRole = $currentUser->role;
 
-                // Jika mencoba akses halaman login admin
-                if ($guard === 'admin') {
-                    if ($user->role === 'admin') {
+                // Jika user adalah admin, hanya boleh akses route yang dimulai dengan 'admin'
+                if ($currentRole === self::ROLE_ADMIN) {
+                    if (!$request->is('admin/*') && !$request->is('admin')) {
                         return redirect()->route('admin.dashboard')
-                            ->with('info', 'Anda sudah login sebagai admin.');
+                            ->with('warning', 'Admin hanya bisa mengakses halaman admin');
                     }
-                    // Jika user biasa mencoba akses login admin, biarkan lanjut
-                    return $next($request);
                 }
 
-                // Jika mencoba akses halaman login user biasa
-                if ($user->role === 'admin') {
-                    return redirect()->route('admin.dashboard')
-                        ->with('info', 'Anda sudah login sebagai admin.');
+                // Jika user adalah user biasa, tidak boleh akses route admin
+                if ($currentRole === self::ROLE_USER) {
+                    if ($request->is('admin/*') || $request->is('admin')) {
+                        Auth::guard($guard)->logout();
+                        $request->session()->invalidate();
+                        $request->session()->regenerateToken();
+
+                        return redirect()->route('user.login')
+                            ->with('error', 'Anda tidak memiliki akses ke halaman admin');
+                    }
                 }
 
-                return redirect()->route('home')
-                    ->with('info', 'Anda sudah login sebagai user.');
+                // Redirect ke dashboard sesuai role jika mencoba akses halaman login
+                if ($request->is('*/login')) {
+                    return $this->redirectToDashboard($currentRole);
+                }
             }
         }
 
         return $next($request);
+    }
+
+    /**
+     * Redirect user ke dashboard berdasarkan role.
+     *
+     * @param string $role Role pengguna
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function redirectToDashboard(string $role): Response
+    {
+        return match($role) {
+            self::ROLE_ADMIN => redirect()->route('admin.dashboard')
+                        ->with('info', 'Anda sudah login sebagai admin'),
+            default => redirect()->route('home')
+                        ->with('info', 'Anda sudah login sebagai user'),
+        };
     }
 }

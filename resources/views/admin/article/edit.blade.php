@@ -4,116 +4,269 @@
 
 @push('style')
     <style>
-        /* Header Styling */
-        .section-header {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
+        /* Modern Gradient Background */
+        .section {
+            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+            min-height: 100vh;
         }
 
-        .section-header h1 {
-            font-size: 24px;
-            color: #2f2f2f;
-            font-weight: bold;
+        /* Glassmorphism Card */
+        .card {
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+            border: none;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.85);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        /* Breadcrumb Styling */
-        .section-header .section-header-breadcrumb {
-            font-size: 14px;
-            color: #f5919d;
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
         }
 
-        .section-header .section-header-breadcrumb .breadcrumb-item a {
-            color: #f5919d;
-            text-decoration: none;
+        /* Vibrant Card Header */
+        .card-header {
+            background: linear-gradient(135deg, #eb4a36 0%, #ff5e4a 100%);
+            padding: 1.75rem;
+            border-radius: 16px 16px 0 0 !important;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: none;
         }
 
-        .section-header .section-header-breadcrumb .breadcrumb-item.active {
-            color: #2f2f2f;
+        .card-header h4 {
+            color: white;
+            font-weight: 700;
+            margin: 0;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
         }
 
-        .section-header .section-header-breadcrumb .breadcrumb-item+.breadcrumb-item::before {
-            content: " / ";
-            color: #f5919d;
+        .header-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: white;
+            font-weight: 500;
         }
 
-        /* Form Styling */
+        /* Modern Form Elements */
+        .card-body {
+            padding: 2.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.75rem;
+            position: relative;
+        }
+
         .form-group label {
+            font-size: 0.95rem;
+            color: #4a5568;
+            margin-bottom: 0.75rem;
             font-weight: 600;
-            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group label i {
+            color: #eb4a36;
+            font-size: 0.9rem;
         }
 
         .required:after {
             content: " *";
-            color: red;
+            color: #eb4a36;
         }
 
-        .btn-submit {
-            background-color: #f5919d;
-            color: white;
-            font-weight: bold;
-            padding: 10px 20px;
-            border-radius: 8px;
-            border: none;
-            transition: all 0.3s;
+        .form-control {
+            height: auto;
+            padding: 0.875rem 1.25rem;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.7);
         }
 
-        .btn-submit:hover {
-            background-color: #e77e8f;
+        .form-control:focus {
+            border-color: #eb4a36;
+            box-shadow: 0 0 0 4px rgba(235, 74, 54, 0.15);
+            background: white;
         }
 
-        .btn-cancel {
-            background-color: #e0e0e0;
-            color: #333;
-            font-weight: bold;
-            padding: 10px 20px;
-            border-radius: 8px;
-            border: none;
-            transition: all 0.3s;
+        textarea.form-control {
+            min-height: 180px;
+            line-height: 1.7;
+            resize: vertical;
         }
 
-        .btn-cancel:hover {
-            background-color: #c0c0c0;
+        /* Enhanced Image Upload */
+        .image-upload-wrapper {
+            margin-top: 1rem;
         }
 
-        /* Image Preview */
         .image-preview {
-            width: 200px;
-            height: 200px;
-            border: 2px dashed #ddd;
-            border-radius: 8px;
+            width: 100%;
+            max-width: 320px;
+            height: 220px;
+            border: 2px dashed #e2e8f0;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            margin-top: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            background: #f8fafc;
+        }
+
+        .image-preview:hover {
+            border-color: #eb4a36;
+            background: rgba(235, 74, 54, 0.03);
         }
 
         .image-preview img {
-            max-width: 100%;
-            max-height: 100%;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
         }
 
         .image-preview-text {
-            color: #999;
-            font-size: 14px;
+            color: #94a3b8;
+            font-size: 0.95rem;
+            text-align: center;
+            padding: 1.5rem;
         }
 
-        /* Responsive */
-        @media screen and (max-width: 768px) {
-            .section-header .d-flex {
-                flex-direction: column;
+        .file-upload-label {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(235, 74, 54, 0.1);
+            color: #eb4a36;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px dashed transparent;
+        }
+
+        .file-upload-label:hover {
+            background: rgba(235, 74, 54, 0.2);
+            border-color: rgba(235, 74, 54, 0.3);
+        }
+
+        /* Current Image Display */
+        .current-image-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .current-image-wrapper {
+            max-width: 320px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-top: 0.75rem;
+        }
+
+        .current-image-label {
+            display: inline-block;
+            background: rgba(235, 74, 54, 0.1);
+            color: #eb4a36;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Modern Buttons */
+        .form-actions {
+            display: flex;
+            gap: 1.25rem;
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .btn {
+            padding: 0.875rem 1.75rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            min-width: 140px;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #eb4a36 0%, #ff5e4a 100%);
+            color: white;
+            box-shadow: 0 4px 14px rgba(235, 74, 54, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: linear-gradient(135deg, #d43a28 0%, #eb4a36 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(235, 74, 54, 0.35);
+        }
+
+        .btn-cancel {
+            background: white;
+            color: #4b5563;
+            border: 2px solid #e5e7eb;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-cancel:hover {
+            background: #f9fafb;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-color: #d1d5db;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .card-body {
+                padding: 1.75rem;
             }
 
-            .section-header-breadcrumb {
-                margin-top: 10px;
+            .form-actions {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .btn {
+                width: 100%;
             }
 
             .image-preview {
-                width: 150px;
-                height: 150px;
+                max-width: 100%;
+                height: 180px;
             }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            animation: fadeIn 0.5s ease-out forwards;
         }
     </style>
 @endpush
@@ -125,8 +278,8 @@
                 <div class="d-flex align-items-center justify-content-between w-100">
                     <h1>Edit Article</h1>
                     <div class="section-header-breadcrumb">
-                        <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}" style="color: #EB4A36;">Dashboard</a></div>
-                        <div class="breadcrumb-item"><a href="{{ route('admin.articles.index') }}" style="color: #EB4A36;">Article</a></div>
+                        <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
+                        <div class="breadcrumb-item"><a href="{{ route('admin.articles.index') }}">Article</a></div>
                         <div class="breadcrumb-item">Edit Article</div>
                     </div>
                 </div>
@@ -138,72 +291,120 @@
                         <div class="card">
                             <div class="card-header">
                                 <h4>Form Edit Article</h4>
+                                <div class="header-badge">
+                                    <i class="fas fa-edit"></i>
+                                    <span>Edit Artikel</span>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <form action="{{ route('admin.articles.update', $article->id) }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
-                                    
+
                                     <div class="form-group">
-                                        <label for="title" class="required">Judul</label>
-                                        <input type="text" id="title" name="title" 
+                                        <label for="title" class="required">
+                                            <i class="fas fa-heading"></i>
+                                            Judul Artikel
+                                        </label>
+                                        <input type="text" id="title" name="title"
                                             class="form-control @error('title') is-invalid @enderror"
-                                            value="{{ old('title', $article->title) }}" required>
+                                            value="{{ old('title', $article->title) }}"
+                                            placeholder="Masukkan judul artikel"
+                                            required>
                                         @error('title')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
                                         @enderror
                                     </div>
-                                    
+
                                     <div class="form-group">
-                                        <label for="news_date" class="required">Tanggal</label>
-                                        <input type="date" id="news_date" name="news_date" 
+                                        <label for="news_date" class="required">
+                                            <i class="far fa-calendar-alt"></i>
+                                            Tanggal Publikasi
+                                        </label>
+                                        <input type="date" id="news_date" name="news_date"
                                             class="form-control @error('news_date') is-invalid @enderror"
-                                            value="{{ old('news_date', $article->news_date) }}" required>
+                                            value="{{ old('news_date', $article->news_date->format('Y-m-d')) }}" required>
                                         @error('news_date')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
                                         @enderror
                                     </div>
-                                    
+
                                     <div class="form-group">
-                                        <label for="detail" class="required">Detail</label>
-                                        <textarea id="detail" name="detail" 
-                                            class="form-control @error('detail') is-invalid @enderror" 
-                                            rows="6" required>{{ old('detail', $article->detail) }}</textarea>
+                                        <label for="detail" class="required">
+                                            <i class="fas fa-align-left"></i>
+                                            Konten Artikel
+                                        </label>
+                                        <textarea id="detail" name="detail"
+                                            class="form-control @error('detail') is-invalid @enderror"
+                                            rows="8"
+                                            placeholder="Tulis konten artikel Anda di sini..."
+                                            required>{{ old('detail', $article->detail) }}</textarea>
                                         @error('detail')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
                                         @enderror
                                     </div>
-                                    
+
                                     <div class="form-group">
-                                        <label for="image">Gambar</label>
-                                        <input type="file" id="image" name="image" 
-                                            class="form-control @error('image') is-invalid @enderror" 
-                                            accept="image/*" onchange="previewImage()">
-                                        <small class="form-text text-muted">Biarkan kosong jika tidak ingin mengubah gambar</small>
-                                        @error('image')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
-                                        
-                                        <div class="image-preview mt-2" id="imagePreview">
+                                        <label>
+                                            <i class="fas fa-image"></i>
+                                            Gambar Saat Ini
+                                        </label>
+
+                                        <div class="current-image-container">
+                                            <span class="current-image-label">
+                                                <i class="fas fa-check-circle"></i> Gambar Terpasang
+                                            </span>
+
                                             @if($article->image)
-                                                <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->title }}">
+                                                <div class="current-image-wrapper">
+                                                    <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->title }}" class="img-fluid">
+                                                </div>
                                             @else
-                                                <span class="image-preview-text">Tidak ada gambar</span>
+                                                <p class="text-muted">Tidak ada gambar</p>
                                             @endif
                                         </div>
+
+                                        <label>
+                                            <i class="fas fa-upload"></i>
+                                            Ganti Gambar (Opsional)
+                                        </label>
+
+                                        <div class="image-upload-wrapper">
+                                            <input type="file" id="image" name="image"
+                                                class="d-none @error('image') is-invalid @enderror"
+                                                accept="image/*" onchange="previewImage()">
+                                            <label for="image" class="file-upload-label">
+                                                <i class="fas fa-cloud-upload-alt"></i>
+                                                Pilih Gambar Baru
+                                            </label>
+                                            <small class="d-block text-muted mt-1">Format: JPG, PNG (Maks. 2MB)</small>
+                                            @error('image')
+                                                <div class="invalid-feedback d-block">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+
+                                            <div class="image-preview mt-3" id="imagePreview">
+                                                <span class="image-preview-text">Gambar baru akan muncul di sini setelah dipilih</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    
-                                    <div class="form-group mt-4">
-                                        <button type="submit" class="btn btn-submit mr-2">Perbarui</button>
-                                        <a href="{{ route('admin.articles.index') }}" class="btn btn-cancel">Batal</a>
+
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn btn-submit">
+                                            <i class="fas fa-save"></i>
+                                            Simpan Perubahan
+                                        </button>
+                                        <a href="{{ route('admin.articles.index') }}" class="btn btn-cancel">
+                                            <i class="fas fa-times"></i>
+                                            Batal
+                                        </a>
                                     </div>
                                 </form>
                             </div>
@@ -218,27 +419,24 @@
 @push('scripts')
 <script>
     function previewImage() {
-        var preview = document.getElementById('imagePreview');
-        var fileInput = document.getElementById('image');
-        var file = fileInput.files[0];
-        var reader = new FileReader();
-        
+        const preview = document.getElementById('imagePreview');
+        const fileInput = document.getElementById('image');
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        preview.innerHTML = '<div class="image-preview-text"><i class="fas fa-spinner fa-spin"></i> Memuat gambar...</div>';
+
         reader.onloadend = function() {
             preview.innerHTML = '';
-            var img = document.createElement('img');
+            const img = document.createElement('img');
             img.src = reader.result;
             preview.appendChild(img);
         }
-        
+
         if (file) {
             reader.readAsDataURL(file);
         } else {
-            // If no new file is selected, show the existing image or "No image" text
-            @if($article->image)
-                preview.innerHTML = '<img src="{{ asset("storage/" . $article->image) }}" alt="{{ $article->title }}">';
-            @else
-                preview.innerHTML = '<span class="image-preview-text">Tidak ada gambar</span>';
-            @endif
+            preview.innerHTML = '<span class="image-preview-text">Gambar baru akan muncul di sini setelah dipilih</span>';
         }
     }
 </script>

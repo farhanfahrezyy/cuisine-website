@@ -35,7 +35,7 @@
                         @endphp --}}
                         <div class="image-container">
                             <img src="{{ asset('storage/' . $recipe->image) }}" alt="{{ $recipe->name }}"
-             class="uk-width-1-1" width="580" height="380">
+                                class="uk-width-1-1" style="width: 100px; height: 100px; object-fit: cover;">
                         </div>
 
                         <div class="mt-2">
