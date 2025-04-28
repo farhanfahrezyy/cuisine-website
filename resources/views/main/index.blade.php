@@ -187,24 +187,8 @@
                         {{ $recipes->links() }}
                     </div>
                 </div>
-
-
-
-                {{-- <div class="uk-margin-large-top uk-text-small">
-                        <ul class="uk-pagination uk-flex-center uk-text-500 uk-margin-remove" data-uk-margin>
-                            <li><a href="#"><span data-uk-pagination-previous></span></a></li>
-                            <li><a href="#">1</a></li>
-                            <li class="uk-active"><span>2</span></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#"><span data-uk-pagination-next></span></a></li>
-                        </ul>
-                    </div> --}}
-
-
             </div>
-
-
+            
         </div>
     </div>
     </div>
@@ -223,8 +207,8 @@
                 <div class="uk-width-expand@m">
                     <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-medium-bottom">
                         <div><strong>
-                                <h6>Latest Articlews</h6>
-                            </strong></div> <!-- Empty div to push content to right -->
+                                <h6>Artikel Terbaru</h6>
+                            </strong></div>
                         <a href="{{ route('articles') }}" class="uk-button uk-button-primary uk-border-pill mr-9">View All
                             Articles</a>
                     </div>
@@ -250,7 +234,7 @@
                                         <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small-top">
                                             <a href="{{ route('articles.show', $article->id) }}"
                                                 class="uk-text-primary uk-text-small">
-                                                Read more →
+                                                lihat resep  →
                                             </a>
                                             <span class="uk-text-muted uk-text-xsmall">
                                                 {{ $article->news_date->format('M d, Y') }}
@@ -261,7 +245,7 @@
                             </div>
                         @empty
                             <div class="uk-width-1-1 uk-text-center uk-padding">
-                                <p class="uk-text-muted">No articles found.</p>
+                                <p class="uk-text-muted">Tidak ada artikel yg ditemukan.</p>
                             </div>
                         @endforelse
                     </div>
