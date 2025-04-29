@@ -467,9 +467,7 @@
                     </div>
 
                     <!-- Statistics Section -->
-                    <!-- Statistics Section - Compact Version -->
-                    <!-- Statistics Section - Compact Version -->
-                    <!-- Statistics Section - Ultra Compact Version -->
+                  <!-- Statistics Section - Ultra Compact Version -->
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
                         <!-- Users Card -->
                         <div class="bg-white rounded-lg shadow-xs p-3 hover:shadow-sm transition-shadow">
