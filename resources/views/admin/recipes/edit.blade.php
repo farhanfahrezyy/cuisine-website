@@ -471,8 +471,8 @@
                                                             id="premium"
                                                             name="premium"
                                                             required>
-                                                        <option value="no" {{ old('premium', $recipe->premium) == 'no' ? 'selected' : '' }}>Regular</option>
-                                                        <option value="yes" {{ old('premium', $recipe->premium) == 'yes' ? 'selected' : '' }}>Premium</option>
+                                                        <option value="no" {{ old('premium', $recipe->premium) === 'no' ? 'selected' : '' }}>Regular</option>
+                                                        <option value="yes" {{ old('premium', $recipe->premium) === 'yes' ? 'selected' : '' }}>Premium</option>
                                                     </select>
                                                     @error('premium')
                                                         <div class="invalid-feedback">
@@ -674,7 +674,7 @@
                                                 <div class="current-image-container">
                                                     <h6>Gambar Saat Ini</h6>
                                                     <div class="current-image">
-                                                        <img src="{{ asset('storage/recipes/' . $recipe->image) }}" alt="{{ $recipe->name }}">
+                                                        <img src="{{ asset('storage/' . $recipe->image) }}" alt="{{ $recipe->name }}">
                                                         <div class="current-image-overlay">
                                                             <span class="badge badge-light">Ganti gambar di bawah</span>
                                                         </div>
