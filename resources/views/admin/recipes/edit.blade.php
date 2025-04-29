@@ -471,8 +471,8 @@
                                                             id="premium"
                                                             name="premium"
                                                             required>
-                                                        <option value="no" {{ old('premium', $recipe->premium) === 'no' ? 'selected' : '' }}>Regular</option>
-                                                        <option value="yes" {{ old('premium', $recipe->premium) === 'yes' ? 'selected' : '' }}>Premium</option>
+                                                        <option value="no" {{ old('premium', $recipe->premium) == 'no' ? 'selected' : '' }}>Regular</option>
+                                                        <option value="yes" {{ old('premium', $recipe->premium) == 'yes' ? 'selected' : '' }}>Premium</option>
                                                     </select>
                                                     @error('premium')
                                                         <div class="invalid-feedback">
