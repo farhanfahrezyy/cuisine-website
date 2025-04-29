@@ -16,8 +16,11 @@ class BlockAdminAccess
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->role === 'Admin') {
-            return redirect('home')->with('error', 'Admin tidak dapat mengakses halaman pelanggan.');
+
+
+        if (Auth::check() && Auth::user()->role === 'admin') {
+
+            return redirect()->to('admin/dashboard')->with('error', 'Admin tidak dapat mengakses halaman pelanggan.');
         }
 
         return $next($request);

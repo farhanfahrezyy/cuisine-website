@@ -27,9 +27,9 @@ Route::get('/recipes', [Controller::class, 'index']);
 Route::prefix('admin')->name('admin.')->middleware(['preventBackHistory'])->group(function () {
     // Public routes (tidak memerlukan auth)
     Route::middleware(['guest:admin'])->group(function () {
-    Route::get('/login', [AuthControllers::class, 'showAdminLoginForm'])->name('login');
-    Route::post('/login', [AuthControllers::class, 'loginAdmin'])->name('submit.login');
-    Route::post('/logout', [AuthControllers::class, 'logout'])->name('logout');
+        Route::get('/login', [AuthControllers::class, 'showAdminLoginForm'])->name('login');
+        Route::post('/login', [AuthControllers::class, 'loginAdmin'])->name('submit.login');
+        Route::post('/logout', [AuthControllers::class, 'logout'])->name('logout');
     });
 
     // Protected routes (memerlukan auth dan role admin)
@@ -126,86 +126,44 @@ Route::middleware('preventBackHistory')->group(function () {
     Route::get('/recipes/{recipeId}/reviews', [RecipeReviewController::class, 'index'])->name('recipe.reviews.index');
 });
 
+Route::middleware('BlockAdminAccess')->group(function () {
+    // This is the correct route for showing the articles list
+    Route::get('/articles', [CatalogController::class, 'article'])->name('articles');
 
+    // This is the correct route for showing a single article
+    Route::get('/articles/{id}', [CatalogController::class, 'articleshow'])
+        ->name('articles.show')
+        ->where('id', '[0-9]+');
+    Route::get('/', [CatalogController::class, 'index'])->name('index');
 
-// Route::get('/recommendations', [App\Http\Controllers\RecommendationController::class, 'index'])
-//     ->name('recommendations.index')
-//     ->middleware('auth');
+    Route::get('/', [CatalogController::class, 'index'])->name('home');
+    Route::get('/search', [HomeController::class, 'search'])->name('recipes.search');
+    Route::get('/search/{query}', [HomeController::class, 'searchReccomendation'])->name('recipes.search.reccomendation');
+    Route::get('/cuisine/{cuisine}', [HomeController::class, 'cuisine'])->name('recipes.cuisine');
+    Route::get('/premium/{cuisine}', [HomeController::class, 'premium'])->name('recipes.premium');
 
+    // Admin payment routes (add middleware for admin only)
+    Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+        // Route::get('/payments', [App\Http\Controllers\PaymentController::class, 'adminIndex'])->name('admin.payment.index');
+        // Route::get('/payment/{id}', [App\Http\Controllers\PaymentController::class, 'adminShow'])->name('admin.payment.show');
 
-
-// This is the correct route for showing the articles list
-Route::get('/articles', [CatalogController::class, 'article'])->name('articles');
-
-// This is the correct route for showing a single article
-Route::get('/articles/{id}', [CatalogController::class, 'articleshow'])
-    ->name('articles.show')
-    ->where('id', '[0-9]+');
-Route::get('/', [CatalogController::class, 'index'])->name('index');
-
-// Route::get('/', function () {
-//     return view('main.index');
-// })->name('home');
-
-Route::get('/', [CatalogController::class, 'index'])->name('home');
-Route::get('/search', [HomeController::class, 'search'])->name('recipes.search');
-Route::get('/search/{query}', [HomeController::class, 'searchReccomendation'])->name('recipes.search.reccomendation');
-Route::get('/cuisine/{cuisine}', [HomeController::class, 'cuisine'])->name('recipes.cuisine');
-Route::get('/premium/{cuisine}', [HomeController::class, 'premium'])->name('recipes.premium');
-
-// Route::get('/show', [CatalogController::class, 'show'])->name('show');
+    });
+    Route::get('/my-recipes', [PaymentItemController::class, 'index'])->name('payment.items.index');
 
 
 
-// payment
+    Route::get('/register', function () {
+        return view('auth.register');
+    })->name('register')->middleware('guest');
 
 
-// Payment Routes
+    Route::get('/about', function () {
+        return view('main.about');
+    })->name('about');
+
+    Route::get('/contact', function () {
+        return view('main.contact');
+    })->name('contact');
+});
 
 
-// Admin payment routes (add middleware for admin only)
-Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-    // Route::get('/payments', [App\Http\Controllers\PaymentController::class, 'adminIndex'])->name('admin.payment.index');
-    // Route::get('/payment/{id}', [App\Http\Controllers\PaymentController::class, 'adminShow'])->name('admin.payment.show');
-
-});Route::get('/my-recipes', [PaymentItemController::class, 'index'])->name('payment.items.index');
-
-// Update RecipeController routes to use new system
-// web.php
-// Route::get('/recipe/{id}', [RecipeController::class, 'show'])->name('recipes.show');
-// Route::get('/recipe/payment/{id}', [PaymentController::class, 'showRecipePayment'])->name('recipe.payment.show');
-
-
-// Route::get('/login', function () {
-//     return view('auth.login');
-// })->name('login')->middleware('auth');
-
-
-Route::get('/register', function () {
-    return view('auth.register');
-})->name('register')->middleware('guest');
-
-// Route untuk autentikasi pengguna umum
-
-
-
-
-// Route::get('/article', function () {
-//     return view('main.article.article');
-// })->name('article');
-
-// Route::get('/detail-article', function () {
-//     return view('main.article.detailarticle');
-// })->name('detail.article');
-
-// Route::get('/admin/articles', function () {
-//     return view('admin.article.article');
-// })->name('admin.articles')->middleware('auth');
-
-Route::get('/about', function () {
-    return view('main.about');
-})->name('about');
-
-Route::get('/contact', function () {
-    return view('main.contact');
-})->name('contact');

@@ -6,19 +6,23 @@
                 <a class="uk-navbar-item uk-logo text-red-500" href="{{ route('home') }}">Cuisiné</a>
                 <!-- Desktop Navigation -->
                 <ul class="uk-navbar-nav uk-visible@m uk-margin-large-left">
-    <li class="{{ request()->routeIs('home') ? 'uk-active' : '' }}">
-        <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-red-600' : '' }}">Home</a>
-    </li>
-    <li class="{{ request()->routeIs('articles') ? 'uk-active' : '' }}">
-        <a href="{{ route('articles') }}" class="{{ request()->routeIs('articles') ? 'text-red-600' : '' }}">Article</a>
-    </li>
-    <li class="{{ request()->routeIs('about') ? 'uk-active' : '' }}">
-        <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'text-red-600' : '' }}">About Us</a>
-    </li>
-    <li class="{{ request()->routeIs('contact') ? 'uk-active' : '' }}">
-        <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'text-red-600' : '' }}">Contact</a>
-    </li>
-</ul>
+                    <li class="{{ request()->routeIs('home') ? 'uk-active' : '' }}">
+                        <a href="{{ route('home') }}"
+                            class="{{ request()->routeIs('home') ? 'text-red-600' : '' }}">Home</a>
+                    </li>
+                    <li class="{{ request()->routeIs('articles') ? 'uk-active' : '' }}">
+                        <a href="{{ route('articles') }}"
+                            class="{{ request()->routeIs('articles') ? 'text-red-600' : '' }}">Article</a>
+                    </li>
+                    <li class="{{ request()->routeIs('about') ? 'uk-active' : '' }}">
+                        <a href="{{ route('about') }}"
+                            class="{{ request()->routeIs('about') ? 'text-red-600' : '' }}">About Us</a>
+                    </li>
+                    <li class="{{ request()->routeIs('contact') ? 'uk-active' : '' }}">
+                        <a href="{{ route('contact') }}"
+                            class="{{ request()->routeIs('contact') ? 'text-red-600' : '' }}">Contact</a>
+                    </li>
+                </ul>
             </div>
 
             <!-- Right Side Navigation -->
@@ -88,26 +92,34 @@
                         </div>
                     </div>
                 @else
-                <div class="uk-navbar-item uk-visible@s">
-                    <!-- Sign In Button -->
-                    <a href="{{ route('user.login.form') }}" class="flex items-center px-5 py-2 mr-3 text-sm font-medium transition-all duration-200 rounded-full border border-gray-200 hover:border-red-300 hover:text-red-600 hover:bg-red-50">
-                        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
-                        </svg>
-                        Sign In
-                    </a>
+                    <div class="uk-navbar-item uk-visible@s">
+                        <!-- Sign In Button -->
+                        <a href="{{ route('user.login.form') }}"
+                            class="flex items-center px-5 py-2 mr-3 text-sm font-medium transition-all duration-200 rounded-full border border-gray-200 hover:border-red-300 hover:text-red-600 hover:bg-red-50">
+                            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1">
+                                </path>
+                            </svg>
+                            Sign In
+                        </a>
 
-                    <!-- Sign Up Button -->
-                    <a href="{{ route('user.register.form') }}" class="flex items-center px-5 py-2 text-sm font-medium text-white transition-all duration-200 rounded-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 shadow-sm hover:shadow-md">
-                        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
-                        </svg>
-                        Sign Up
-                    </a>
-                </div>
+                        <!-- Sign Up Button -->
+                        <a href="{{ route('user.register.form') }}"
+                            class="flex items-center px-5 py-2 text-sm font-medium text-white transition-all duration-200 rounded-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 shadow-sm hover:shadow-md">
+                            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z">
+                                </path>
+                            </svg>
+                            Sign Up
+                        </a>
+                    </div>
 
-                <!-- Authentication redirect script -->
-                {{-- <script>
+                    <!-- Authentication redirect script -->
+                    {{-- <script>
                     @if (Auth::check() && Auth::user()->role === 'admin')
                         // If user is admin, display access denied message
                         alert("Akses ditolak. Halaman ini hanya untuk pengguna dengan role 'user'.");
@@ -143,13 +155,16 @@
                 <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-red-600' : '' }}">Home</a>
             </li>
             <li class="{{ request()->routeIs('articles') ? 'uk-active' : '' }}">
-                <a href="{{ route('articles') }}" class="{{ request()->routeIs('articles') ? 'text-red-600' : '' }}">Article</a>
+                <a href="{{ route('articles') }}"
+                    class="{{ request()->routeIs('articles') ? 'text-red-600' : '' }}">Article</a>
             </li>
             <li class="{{ request()->routeIs('about') ? 'uk-active' : '' }}">
-                <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'text-red-600' : '' }}">About Us</a>
+                <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'text-red-600' : '' }}">About
+                    Us</a>
             </li>
             <li class="{{ request()->routeIs('contact') ? 'uk-active' : '' }}">
-                <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'text-red-600' : '' }}">Contact</a>
+                <a href="{{ route('contact') }}"
+                    class="{{ request()->routeIs('contact') ? 'text-red-600' : '' }}">Contact</a>
             </li>
         </ul>
 
@@ -166,7 +181,8 @@
                     </div>
                     <!-- User Info for Mobile -->
                     <div class="flex-grow ml-1 md:ml-2">
-                        <h5 class="!text-black font-medium truncate text-sm md:text-base">{{ Auth::user()->name }}</h5>
+                        <h5 class="!text-black font-medium truncate text-sm md:text-base">{{ Auth::user()->name }}
+                        </h5>
                         <p class="text-gray-500 text-xs md:text-sm truncate">{{ Auth::user()->email }}</p>
                     </div>
                 </div>
@@ -181,23 +197,31 @@
                 </div>
             </div>
         @else
-        <div class="uk-margin-top uk-padding-small">
-            <!-- Mobile Sign In Button -->
-            <a href="{{ route('user.login.form') }}" class="flex items-center justify-center w-full px-5 py-2.5 mb-3 text-sm font-medium transition-all duration-200 rounded-full border border-gray-200 hover:border-red-300 hover:text-red-600 hover:bg-red-50">
-                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
-                </svg>
-                Sign In
-            </a>
+            <div class="uk-margin-top uk-padding-small">
+                <!-- Mobile Sign In Button -->
+                <a href="{{ route('user.login.form') }}"
+                    class="flex items-center justify-center w-full px-5 py-2.5 mb-3 text-sm font-medium transition-all duration-200 rounded-full border border-gray-200 hover:border-red-300 hover:text-red-600 hover:bg-red-50">
+                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1">
+                        </path>
+                    </svg>
+                    Sign In
+                </a>
 
-            <!-- Mobile Sign Up Button -->
-            <a href="{{ route('user.register.form') }}" class="flex items-center justify-center w-full px-5 py-2.5 text-sm font-medium text-white transition-all duration-200 rounded-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 shadow-sm hover:shadow-md">
-                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
-                </svg>
-                Sign Up
-            </a>
-        </div>
+                <!-- Mobile Sign Up Button -->
+                <a href="{{ route('user.register.form') }}"
+                    class="flex items-center justify-center w-full px-5 py-2.5 text-sm font-medium text-white transition-all duration-200 rounded-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 shadow-sm hover:shadow-md">
+                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z">
+                        </path>
+                    </svg>
+                    Sign Up
+                </a>
+            </div>
         @endif
     </div>
 </div>
