@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Payment;
 use App\Models\Recipe;
 use App\Models\PaymentItem;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -85,20 +86,26 @@ class PaymentController extends Controller
         // dd($paymentItems);
         return view('main.payment.show', compact('payment', 'paymentItems'));
     }
-    public function checkout(Request $request, $id = null)
+    public function checkout(Request $request, $id)
     {
         if (!Auth::check()) {
             return redirect()->route('user.login.form')
                 ->with('error', 'Silakan login terlebih dahulu untuk melihat detail resep');
         }
 
+        // $reviews = Review::where('recipe', $id)
+        //     ->with('user')
+        //     ->orderBy('created_at', 'desc')
+        //     ->get();
 
-        $recipe = null;
-        if ($id) {
-            $recipe = Recipe::findOrFail($id);
-        }
+        $recipe = Recipe::with('reviews')->findOrFail($id);
+        // dd($recipe);
 
-        return view('main.payment.checkout', compact('recipe'));
+        $avgRating = number_format($recipe->reviews->avg('rating'));
+
+        // dd($avgRating);
+
+        return view('main.payment.checkout', compact('recipe', 'avgRating'));
     }
 
     public function process(Request $request)
@@ -151,8 +158,9 @@ class PaymentController extends Controller
 
             Log::info('Payment process completed successfully');
 
-            return redirect()->to('/payment/view/' . $recipe->id)
-                ->with('success', 'Pembayaran telah diproses. Menunggu konfirmasi admin.');
+            return redirect()->to('/payment/view/' . $recipe->id)->with('success', 'Pembayaran telah diproses. Menunggu konfirmasi admin.');
+            
+
         } catch (\Exception $e) {
             // Log errors
             Log::error('Payment processing error: ' . $e->getMessage());
@@ -203,9 +211,6 @@ class PaymentController extends Controller
                 ->withInput();
         }
     }
-
-    // Admin methods
-
 
     public function adminShow($id)
     {

@@ -71,25 +71,25 @@
 
                                         <a href="#">Free Recipes</a>
                                         <ul class="uk-nav-sub">
-                                            <li><a href="{{ route('recipes.cuisine', 'korean') }}">Korean Food</a></li>
+                                            <li><a href="{{ route('recipes.cuisine', 'korea') }}">Korean Food</a></li>
                                             <li><a href="{{ route('recipes.cuisine', 'indonesia') }}">Indonesian Food</a>
                                             </li>
-                                            <li><a href="{{ route('recipes.cuisine', 'japanese') }}">Japanese Food</a></li>
-                                            <li><a href="{{ route('recipes.cuisine', 'indian') }}">Indian Food</a></li>
+                                            <li><a href="{{ route('recipes.cuisine', 'jepang') }}">Japanese Food</a></li>
+                                            <li><a href="{{ route('recipes.cuisine', 'india') }}">Indian Food</a></li>
                                             <li><a href="{{ route('recipes.cuisine', 'western') }}">Western Food</a></li>
-                                            <li><a href="{{ route('recipes.cuisine', 'italian') }}">Italian Food</a></li>
+                                            <li><a href="{{ route('recipes.cuisine', 'italia') }}">Italian Food</a></li>
                                         </ul>
                                     </li>
                                     <li class="uk-parent">
                                         <a href="#">Premium Recipes</a>
                                         <ul class="uk-nav-sub">
-                                            <li><a href="{{ route('recipes.premium', 'korean') }}">Korean Food</a></li>
+                                            <li><a href="{{ route('recipes.premium', 'korea') }}">Korean Food</a></li>
                                             <li><a href="{{ route('recipes.premium', 'Indonesia') }}">Indonesian Food</a>
                                             </li>
-                                            <li><a href="{{ route('recipes.premium', 'japanese') }}">Japanese Food</a></li>
-                                            <li><a href="{{ route('recipes.premium', 'indian') }}">Indian Food</a></li>
+                                            <li><a href="{{ route('recipes.premium', 'jepang') }}">Japanese Food</a></li>
+                                            <li><a href="{{ route('recipes.premium', 'india') }}">Indian Food</a></li>
                                             <li><a href="{{ route('recipes.premium', 'western') }}">Western Food</a></li>
-                                            <li><a href="{{ route('recipes.premium', 'italian') }}">Italian Food</a></li>
+                                            <li><a href="{{ route('recipes.premium', 'italia') }}">Italian Food</a></li>
                                         </ul>
                                     </li>
 
@@ -227,7 +227,7 @@
 
                                             <a href="{{ route('recipes.show', ['id' => $recipe->id]) }}"
                                                 class="uk-button uk-button-text uk-text-primary">
-                                                Lihat Resep
+                                                Lihat Resep →
                                             </a>
                                         </div>
                                     </div>
