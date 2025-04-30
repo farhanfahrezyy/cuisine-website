@@ -180,7 +180,7 @@ uk-flex uk-flex-middle">
                 @else
                     <!-- Jika pengguna belum login -->
                     <div class="uk-width-1-1@m uk-text-center">
-                        <p class="uk-text-large">Please login to view the recipe details.</p>
+                        <p class="uk-text-large">Silahkan login terlebih dahulu.</p>
                         <a href="{{ route('user.login.form') }}"
                             class="uk-button uk-button-primary uk-button-large uk-margin-medium-top uk-margin-medium-bottom"
                             style="min-width: 200px;">
@@ -196,7 +196,7 @@ uk-flex uk-flex-middle">
     @auth
         <div class="uk-section uk-section-muted">
             <div class="uk-container uk-container-small">
-                <h3 class="uk-text-bold uk-margin-medium-bottom">Reviews</h3>
+                <h3 class="uk-text-bold uk-margin-medium-bottom">Ulasan</h3>
 
                 <!-- Display Reviews -->
                 <div class="uk-margin-medium-bottom">
@@ -252,14 +252,14 @@ uk-flex uk-flex-middle">
                         {{ $reviews->links() }}
                     @else
                         <div class="uk-alert uk-alert-primary">
-                            <p>No reviews yet. Be the first to review this recipe!</p>
+                            <p>Belum ada ulasan. Silahkan tambahkan ulasan kamu</p>
                         </div>
                     @endif
                 </div>
 
                 <!-- Add Review Form -->
                 <div class="uk-margin-large-top">
-                    <h4 class="uk-text-bold">Add Your Review</h4>
+                    <h4 class="uk-text-bold">Tambahkan Ulasan Kamu ♥️</h4>
 
                     @if (session('success'))
                         <div class="uk-alert uk-alert-success">
@@ -297,7 +297,7 @@ uk-flex uk-flex-middle">
                         </div>
 
                         <div class="uk-margin">
-                            <label class="uk-form-label" for="comment">Your Review</label>
+                            <label class="uk-form-label" for="comment">Ulasan</label>
                             <div class="uk-form-controls">
                                 <textarea class="uk-textarea @error('comment') uk-form-danger @enderror" id="comment" name="comment"
                                     rows="5" required placeholder="Share your experience with this recipe...">{{ old('comment') }}</textarea>

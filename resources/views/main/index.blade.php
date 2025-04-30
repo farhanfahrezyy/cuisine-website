@@ -276,7 +276,7 @@
                                         <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small-top">
                                             <a href="{{ route('articles.show', $article->id) }}"
                                                 class="uk-text-primary uk-text-small">
-                                                lihat artikel  →
+                                                Lihat Artikel  →
                                             </a>
                                             <span class="uk-text-muted uk-text-xsmall">
                                                 {{ $article->news_date->format('M d, Y') }}
