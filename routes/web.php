@@ -98,7 +98,9 @@ Route::prefix('user')->name('user.')->middleware(['preventBackHistory', 'BlockAd
         Route::post('/logout', [AuthControllers::class, 'logout'])->name('logout');
     });
 });
-Route::middleware('preventBackHistory')->group(function () {
+// Route::middleware('preventBackHistory', 'BlockAdminAccess')->group(function () {});
+
+Route::middleware('BlockAdminAccess', 'preventBackHistory')->group(function () {
 
     Route::prefix('/recipes')->name('recipes.')->group(function () {
         Route::get('/recipes/{id}', [CatalogController::class, 'show'])
@@ -124,9 +126,6 @@ Route::middleware('preventBackHistory')->group(function () {
     });
 
     Route::get('/recipes/{recipeId}/reviews', [RecipeReviewController::class, 'index'])->name('recipe.reviews.index');
-});
-
-Route::middleware('BlockAdminAccess')->group(function () {
     // This is the correct route for showing the articles list
     Route::get('/articles', [CatalogController::class, 'article'])->name('articles');
 
@@ -165,5 +164,3 @@ Route::middleware('BlockAdminAccess')->group(function () {
         return view('main.contact');
     })->name('contact');
 });
-
-

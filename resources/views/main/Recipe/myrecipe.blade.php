@@ -42,19 +42,19 @@
                             <li class="uk-parent uk-open">
                                 <a href="#">Free Recipes</a>
                                 <ul class="uk-nav-sub">
-                                    <li><a href="{{ route('recipes.cuisine', 'korean') }}">Korean Food</a></li>
+                                    <li><a href="{{ route('recipes.cuisine', 'korea') }}">Korean Food</a></li>
                                     <li><a href="{{ route('recipes.cuisine', 'indonesia') }}">Indonesian Food</a>
                                     </li>
-                                    <li><a href="{{ route('recipes.cuisine', 'japanese') }}">Japanese Food</a></li>
-                                    <li><a href="{{ route('recipes.cuisine', 'indian') }}">Indian Food</a></li>
+                                    <li><a href="{{ route('recipes.cuisine', 'jepang') }}">Japanese Food</a></li>
+                                    <li><a href="{{ route('recipes.cuisine', 'india') }}">Indian Food</a></li>
                                     <li><a href="{{ route('recipes.cuisine', 'western') }}">Western Food</a></li>
-                                    <li><a href="{{ route('recipes.cuisine', 'italian') }}">Italian Food</a></li>
+                                    <li><a href="{{ route('recipes.cuisine', 'italia') }}">Italian Food</a></li>
                                 </ul>
                             </li>
                             <li class="uk-parent">
                                 <a href="#">Premium Recipes</a>
                                 <ul class="uk-nav-sub">
-                                    <li><a href="{{ route('recipes.premium', 'korean') }}">Korean Food</a></li>
+                                    <li><a href="{{ route('recipes.premium', 'korea') }}">Korean Food</a></li>
                                     <li><a href="{{ route('recipes.premium', 'Indonesia') }}">Indonesian Food</a>
                                     </li>
                                     <li><a href="{{ route('recipes.premium', 'jepang') }}">Japanese Food</a></li>
