@@ -58,7 +58,7 @@
                                     <li><a href="{{ route('recipes.premium', 'Indonesia') }}">Indonesian Food</a>
                                     </li>
                                     <li><a href="{{ route('recipes.premium', 'jepang') }}">Japanese Food</a></li>
-                                    <li><a href="{{ route('recipes.premium', 'indian') }}">Indian Food</a></li>
+                                    <li><a href="{{ route('recipes.premium', 'india') }}">Indian Food</a></li>
                                     <li><a href="{{ route('recipes.premium', 'western') }}">Western Food</a></li>
                                     <li><a href="{{ route('recipes.premium', 'italia') }}">Italian Food</a></li>
                                 </ul>
