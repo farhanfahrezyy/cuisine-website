@@ -125,7 +125,7 @@ class RecipeController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
-            'premium' => 'required|in:yes,no',
+            'premium' => 'required|in:no,yes',
             'price' => 'required|numeric|min:0',
             'spiciness' => 'required|in:low,medium,high',
             'country' => 'nullable|string|max:100',
