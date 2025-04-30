@@ -479,16 +479,15 @@
                                                         <i class="fas fa-crown"></i>
                                                         Status Resep
                                                     </label>
+
                                                     <select class="form-control @error('premium') is-invalid @enderror"
                                                         id="premium" name="premium" required>
                                                         <option value="0"
-                                                            {{ old('premium', $recipe->premium) ? '' : 'selected' }}>
-                                                            Regular
-                                                        </option>
+                                                            {{ old('premium', $recipe->premium) == 0 ? 'selected' : '' }}>
+                                                            Regular</option>
                                                         <option value="1"
-                                                            {{ old('premium', $recipe->premium) ? 'selected' : '' }}>
-                                                            Premium
-                                                        </option>
+                                                            {{ old('premium', $recipe->premium) == 1 ? 'selected' : '' }}>
+                                                            Premium</option>
                                                     </select>
 
 

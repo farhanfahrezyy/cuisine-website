@@ -56,7 +56,7 @@ class RecipeController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
-            'premium' => 'required|in:yes,no',
+            'premium' => 'required|in:0,1',
             'price' => 'required|numeric|min:0',
             'spiciness' => 'required|in:low,medium,high',
             'country' => 'nullable|string|max:100',
@@ -114,8 +114,13 @@ class RecipeController extends Controller
     public function edit(Recipe $recipe)
     {
         $type_menu = 'recipe';
+        $recipe= Recipe::findOrFail($recipe->id);
         $categories = Category::all();
         $spicinessOptions = ['low', 'medium', 'high'];
+
+
+        // dd(old('premium', $recipe->premium));
+
 
         return view('admin.recipes.edit', compact('recipe', 'categories', 'spicinessOptions', 'type_menu'));
     }
@@ -125,7 +130,7 @@ class RecipeController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
-            'premium' => 'required|in:no,yes',
+            'premium' => 'required|in:0,1',
             'price' => 'required|numeric|min:0',
             'spiciness' => 'required|in:low,medium,high',
             'country' => 'nullable|string|max:100',
@@ -152,6 +157,7 @@ class RecipeController extends Controller
             $imagePath = $request->file('image')->store('recipes', 'public');
             $validatedData['image'] = $imagePath;
         }
+
 
         // Update the recipe
         $recipe->update($validatedData);

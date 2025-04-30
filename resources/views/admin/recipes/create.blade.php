@@ -424,8 +424,8 @@
                                                             id="premium"
                                                             name="premium"
                                                             required>
-                                                        <option value="no" {{ old('premium') == 'no' ? 'selected' : '' }}>Regular</option>
-                                                        <option value="yes" {{ old('premium') == 'yes' ? 'selected' : '' }}>Premium</option>
+                                                            <option value="0" {{ old('premium') == '0' ? 'selected' : '' }}>Regular</option>
+                                                            <option value="1" {{ old('premium') == '1' ? 'selected' : '' }}>Premium</option>
                                                     </select>
                                                     @error('premium')
                                                         <div class="invalid-feedback">
