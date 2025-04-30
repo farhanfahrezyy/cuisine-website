@@ -808,7 +808,7 @@
             // Premium status price handling
             $('#premium').on('change', function() {
                 const price = $('#price');
-                if ($(this).val() === 'yes') {
+                if ($(this).val() === '1') {
                     price.prop('min', 1);
                     if (price.val() == 0) {
                         price.val(10000);

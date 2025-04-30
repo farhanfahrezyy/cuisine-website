@@ -268,7 +268,9 @@
             margin-left: -0.75rem;
         }
 
-        .col-md-4, .col-md-6, .col-12 {
+        .col-md-4,
+        .col-md-6,
+        .col-12 {
             position: relative;
             width: 100%;
             padding-right: 0.75rem;
@@ -280,6 +282,7 @@
                 flex: 0 0 33.333333%;
                 max-width: 33.333333%;
             }
+
             .col-md-6 {
                 flex: 0 0 50%;
                 max-width: 50%;
@@ -313,8 +316,15 @@
 
         /* Animation */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .card {
@@ -367,7 +377,8 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <form action="{{ route('admin.recipes.store') }}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('admin.recipes.store') }}" method="POST"
+                                    enctype="multipart/form-data">
                                     @csrf
 
                                     <div class="form-section">
@@ -399,8 +410,9 @@
                                                     <select class="form-control @error('category_id') is-invalid @enderror"
                                                         id="category_id" name="category_id" required>
                                                         <option value="">Pilih Kategori</option>
-                                                        @foreach($categories as $category)
-                                                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                                        @foreach ($categories as $category)
+                                                            <option value="{{ $category->id }}"
+                                                                {{ old('category_id') == $category->id ? 'selected' : '' }}>
                                                                 {{ $category->name }}
                                                             </option>
                                                         @endforeach
@@ -421,11 +433,11 @@
                                                         Status Resep
                                                     </label>
                                                     <select class="form-control @error('premium') is-invalid @enderror"
-                                                            id="premium"
-                                                            name="premium"
-                                                            required>
-                                                            <option value="0" {{ old('premium') == '0' ? 'selected' : '' }}>Regular</option>
-                                                            <option value="1" {{ old('premium') == '1' ? 'selected' : '' }}>Premium</option>
+                                                        id="premium" name="premium" required>
+                                                        <option value="0"
+                                                            {{ old('premium') == '0' ? 'selected' : '' }}>Regular</option>
+                                                        <option value="1"
+                                                            {{ old('premium') == '1' ? 'selected' : '' }}>Premium</option>
                                                     </select>
                                                     @error('premium')
                                                         <div class="invalid-feedback">
@@ -441,12 +453,9 @@
                                                         Harga Resep (Rp)
                                                     </label>
                                                     <input type="number"
-                                                           class="form-control @error('price') is-invalid @enderror"
-                                                           id="price"
-                                                           name="price"
-                                                           value="{{ old('price', 0) }}"
-                                                           min="0"
-                                                           required>
+                                                        class="form-control @error('price') is-invalid @enderror"
+                                                        id="price" name="price" value="{{ old('price', 0) }}"
+                                                        min="0" required>
                                                     @error('price')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
@@ -462,9 +471,10 @@
                                                     </label>
                                                     <select class="form-control @error('spiciness') is-invalid @enderror"
                                                         id="spiciness" name="spiciness" required>
-                                                        @foreach($spicinessOptions as $option)
-                                                            <option value="{{ $option }}" {{ old('spiciness') == $option ? 'selected' : '' }}>
-                                                                @if($option == 'low')
+                                                        @foreach ($spicinessOptions as $option)
+                                                            <option value="{{ $option }}"
+                                                                {{ old('spiciness') == $option ? 'selected' : '' }}>
+                                                                @if ($option == 'low')
                                                                     Tidak Pedas
                                                                 @elseif($option == 'medium')
                                                                     Pedas Sedang
@@ -490,12 +500,24 @@
                                                     <select class="form-control @error('country') is-invalid @enderror"
                                                         id="country" name="country">
                                                         <option value="">Pilih Negara Asal</option>
-                                                        <option value="Indonesia" {{ old('country') == 'Indonesia' ? 'selected' : '' }}>Indonesia</option>
-                                                        <option value="Italia" {{ old('country') == 'Italia' ? 'selected' : '' }}>Italia</option>
-                                                        <option value="Jepang" {{ old('country') == 'Jepang' ? 'selected' : '' }}>Jepang</option>
-                                                        <option value="Western" {{ old('country') == 'Western' ? 'selected' : '' }}>Western</option>
-                                                        <option value="India" {{ old('country') == 'India' ? 'selected' : '' }}>India</option>
-                                                        <option value="Korea" {{ old('country') == 'Korea' ? 'selected' : '' }}>Korea</option>
+                                                        <option value="Indonesia"
+                                                            {{ old('country') == 'Indonesia' ? 'selected' : '' }}>Indonesia
+                                                        </option>
+                                                        <option value="Italia"
+                                                            {{ old('country') == 'Italia' ? 'selected' : '' }}>Italia
+                                                        </option>
+                                                        <option value="Jepang"
+                                                            {{ old('country') == 'Jepang' ? 'selected' : '' }}>Jepang
+                                                        </option>
+                                                        <option value="Western"
+                                                            {{ old('country') == 'Western' ? 'selected' : '' }}>Western
+                                                        </option>
+                                                        <option value="India"
+                                                            {{ old('country') == 'India' ? 'selected' : '' }}>India
+                                                        </option>
+                                                        <option value="Korea"
+                                                            {{ old('country') == 'Korea' ? 'selected' : '' }}>Korea
+                                                        </option>
                                                     </select>
                                                     @error('country')
                                                         <div class="invalid-feedback">
@@ -514,8 +536,7 @@
                                                 <i class="fas fa-align-left"></i>
                                                 Deskripsi Resep
                                             </label>
-                                            <textarea class="form-control @error('detail') is-invalid @enderror"
-                                                id="detail" name="detail" rows="5"
+                                            <textarea class="form-control @error('detail') is-invalid @enderror" id="detail" name="detail" rows="5"
                                                 placeholder="Tambahkan deskripsi singkat tentang resep">{{ old('detail') }}</textarea>
                                             @error('detail')
                                                 <div class="invalid-feedback">
@@ -535,9 +556,8 @@
                                                         Bahan-bahan
                                                     </label>
                                                     <small class="text-muted">Satu bahan per baris</small>
-                                                    <textarea class="form-control @error('ingredients') is-invalid @enderror"
-                                                        id="ingredients" name="ingredients" rows="8" required
-                                                        placeholder="Contoh:&#10;2 butir telur&#10;100g tepung&#10;50ml susu">{{ old('ingredients') }}</textarea>
+                                                    <textarea class="form-control @error('ingredients') is-invalid @enderror" id="ingredients" name="ingredients"
+                                                        rows="8" required placeholder="Contoh:&#10;2 butir telur&#10;100g tepung&#10;50ml susu">{{ old('ingredients') }}</textarea>
                                                     @error('ingredients')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
@@ -552,8 +572,8 @@
                                                         Langkah-langkah
                                                     </label>
                                                     <small class="text-muted">Satu langkah per baris</small>
-                                                    <textarea class="form-control @error('instructions') is-invalid @enderror"
-                                                        id="instructions" name="instructions" rows="8" required
+                                                    <textarea class="form-control @error('instructions') is-invalid @enderror" id="instructions" name="instructions"
+                                                        rows="8" required
                                                         placeholder="Contoh:&#10;1. Kocok telur&#10;2. Campur tepung dan susu&#10;3. Aduk hingga rata">{{ old('instructions') }}</textarea>
                                                     @error('instructions')
                                                         <div class="invalid-feedback">
@@ -575,8 +595,8 @@
 
                                             <div class="image-upload-wrapper">
                                                 <input type="file" id="image" name="image"
-                                                    class="d-none @error('image') is-invalid @enderror"
-                                                    accept="image/*" onchange="previewImage()">
+                                                    class="d-none @error('image') is-invalid @enderror" accept="image/*"
+                                                    onchange="previewImage()">
                                                 <label for="image" class="file-upload-label">
                                                     <i class="fas fa-cloud-upload-alt"></i>
                                                     Pilih Gambar
@@ -589,7 +609,8 @@
                                                 @enderror
 
                                                 <div class="image-preview mt-3" id="imagePreview">
-                                                    <span class="image-preview-text">Gambar akan muncul di sini setelah dipilih</span>
+                                                    <span class="image-preview-text">Gambar akan muncul di sini setelah
+                                                        dipilih</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -616,56 +637,58 @@
 @endsection
 
 @push('scripts')
-<script>
-    function previewImage() {
-        const preview = document.getElementById('imagePreview');
-        const fileInput = document.getElementById('image');
-        const file = fileInput.files[0];
-        const reader = new FileReader();
+    <script>
+        function previewImage() {
+            const preview = document.getElementById('imagePreview');
+            const fileInput = document.getElementById('image');
+            const file = fileInput.files[0];
+            const reader = new FileReader();
 
-        preview.innerHTML = '<div class="image-preview-text"><i class="fas fa-spinner fa-spin"></i> Memuat gambar...</div>';
+            preview.innerHTML =
+                '<div class="image-preview-text"><i class="fas fa-spinner fa-spin"></i> Memuat gambar...</div>';
 
-        reader.onloadend = function() {
-            preview.innerHTML = '';
-            const img = document.createElement('img');
-            img.src = reader.result;
-            preview.appendChild(img);
-        }
+            reader.onloadend = function() {
+                preview.innerHTML = '';
+                const img = document.createElement('img');
+                img.src = reader.result;
+                preview.appendChild(img);
+            }
 
-        if (file) {
-            reader.readAsDataURL(file);
-        } else {
-            preview.innerHTML = '<span class="image-preview-text">Gambar akan muncul di sini setelah dipilih</span>';
-        }
-    }
-
-    $(document).ready(function() {
-        // Premium status price handling
-        $('#premium').on('change', function() {
-            const price = $('#price');
-            if ($(this).val() === 'yes') {
-                price.prop('min', 1);
-                if (price.val() == 0) {
-                    price.val(10000);
-                }
+            if (file) {
+                reader.readAsDataURL(file);
             } else {
-                price.prop('min', 0);
-                price.val(0);
+                preview.innerHTML = '<span class="image-preview-text">Gambar akan muncul di sini setelah dipilih</span>';
+            }
+        }
+
+        $(document).ready(function() {
+            // Premium status price handling
+            $('#premium').on('change', function() {
+                const price = $('#price');
+                if ($(this).val() === '1') { // Premium
+                    price.prop('min', 1);
+                    if (price.val() == 0) {
+                        price.val(10000); // default value for premium
+                    }
+                } else { // Regular
+                    price.prop('min', 0);
+                    price.val(0);
+                }
+            });
+
+
+            // Initialize select2 if needed
+            if ($.fn.select2) {
+                $('#category_id').select2({
+                    placeholder: 'Pilih Kategori',
+                    allowClear: true
+                });
+
+                $('#country').select2({
+                    placeholder: 'Pilih Negara Asal',
+                    allowClear: true
+                });
             }
         });
-
-        // Initialize select2 if needed
-        if($.fn.select2) {
-            $('#category_id').select2({
-                placeholder: 'Pilih Kategori',
-                allowClear: true
-            });
-
-            $('#country').select2({
-                placeholder: 'Pilih Negara Asal',
-                allowClear: true
-            });
-        }
-    });
-</script>
+    </script>
 @endpush
