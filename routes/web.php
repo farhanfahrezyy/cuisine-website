@@ -20,9 +20,9 @@ use Illuminate\Support\Facades\Route;
 use Termwind\Components\Hr;
 
 Route::get('/recipes', [Controller::class, 'index']);
-Route::get('/php', function () {
-    dd(phpinfo());
-})->name('php.info');
+// Route::get('/php', function () {
+//     dd(phpinfo());
+// })->name('php.info');
 
 Route::prefix('admin')->name('admin.')->middleware(['preventBackHistory'])->group(function () {
     // Public routes (tidak memerlukan auth)

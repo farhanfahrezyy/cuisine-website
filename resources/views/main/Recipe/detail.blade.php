@@ -61,7 +61,7 @@ uk-flex uk-flex-middle">
                     <div class="uk-margin-medium-top uk-child-width-expand uk-text-center uk-grid-divider" data-uk-grid>
                         <div>
                             <span class="fa-solid fa-location-dot"></span>
-                            <h5 class="uk-text-500 uk-margin-small-top uk-margin-remove-bottom">Country</h5>
+                            <h5 class="uk-text-500 uk-margin-small-top uk-margin-remove-bottom">Negara</h5>
                             <span class="uk-text-small">{{ $recipe->country }}</span>
                         </div>
                         <div>
@@ -108,8 +108,18 @@ uk-flex uk-flex-middle">
                         </div>
                         <div>
                             <span class="fa-solid fa-pepper-hot"></span>
-                            <h5 class="uk-text-500 uk-margin-small-top uk-margin-remove-bottom">Spiciness</h5>
-                            <span class="uk-text-small">{{ $recipe->spiciness }}</span>
+                            <h5 class="uk-text-500 uk-margin-small-top uk-margin-remove-bottom">Kepedasan</h5>
+                            <span class="uk-text-small">
+                                @if ($recipe->spiciness === 'low')
+                                    Tidak Pedas
+                                @elseif ($recipe->spiciness === 'medium')
+                                    Sedang
+                                @elseif ($recipe->spiciness === 'high')
+                                    Pedas
+                                @else
+                                    {{ $recipe->spiciness ?? '-' }}
+                                @endif
+                            </span>
                         </div>
                     </div>
 
@@ -126,7 +136,7 @@ uk-flex uk-flex-middle">
                 @auth
                     <div class="uk-width-expand@m">
                         <div class="uk-article">
-                            <h3 style="font-size: 1.4rem" class="uk-text-bold uk-text-small">How to make</h3>
+                            <h3 style="font-size: 1.4rem" class="uk-text-bold uk-text-small">Langkah Pembuatan</h3>
 
                             @php
                                 $instructions = json_decode($recipe->instructions, true);
@@ -153,7 +163,7 @@ uk-flex uk-flex-middle">
                     </div>
 
                     <div class="uk-width-1-3@m">
-                        <h3 style="font-size: 1.4rem" class="uk-text-bold uk-text-small">ingredients</h3>
+                        <h3 style="font-size: 1.4rem" class="uk-text-bold uk-text-small">Bahan - bahan</h3>
 
                         @php
                             $ingredients = json_decode($recipe->ingredients, true);
