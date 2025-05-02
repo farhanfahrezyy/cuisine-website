@@ -48,7 +48,7 @@
                 <div class="uk-card uk-card-default uk-box-shadow-small uk-margin">
     <div class="uk-card-media-top">
         <img src="{{ asset('storage/' . $recipe->image) }}" alt="{{ $recipe->name }}"
-             class="uk-width-1-1" width="580" height="380">
+     class="uk-width-1-1 uk-border-rounded" style="height: 300px; object-fit: cover;">
     </div>
 </div>
             </div>

@@ -68,7 +68,7 @@
                                     @forelse ($recipe->reviews as $review)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $review->name }}</td>
+                                            <td>{{ $review->user->name }}</td>
                                             <td>{{ $review->rating }}/5</td>
                                             <td>{{ Str::limit($review->comment, 100) }}</td>
                                             <td>

@@ -143,6 +143,8 @@ class AuthControllers extends Controller // Perbaiki nama kelas (Controllers -> 
         ])->withInput($request->except('password'));
     }
 
+
+
     public function register(RegisterRequest $request)
 {
     try {
@@ -200,4 +202,6 @@ class AuthControllers extends Controller // Perbaiki nama kelas (Controllers -> 
         return redirect()->route('home')
             ->with('message', 'Anda telah berhasil logout');
     }
+
+    
 }
