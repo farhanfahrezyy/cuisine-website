@@ -23,7 +23,7 @@
 
             <li class="{{ $type_menu === 'article' ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('admin.articles.index') }}">
-                    <i class="fas fa-star"></i> <span>Articles</span>
+                    <i class="fas fa-newspaper"></i> <span>Articles</span>
                 </a>
             </li>
 
