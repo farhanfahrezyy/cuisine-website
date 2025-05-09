@@ -137,7 +137,7 @@ class RecipeController extends Controller
             'detail' => 'required|string',
             'ingredients' => 'required|string',
             'instructions' => 'required|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp |max:10480'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp |max:10480'
         ]);
 
         // Convert ingredients and instructions to JSON

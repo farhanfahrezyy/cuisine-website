@@ -639,73 +639,32 @@
                                                     </label>
                                                     <small class="text-muted">Satu langkah per baris</small>
                                                     <textarea class="form-control @error('instructions') is-invalid @enderror" id="instructions" name="instructions"
-                                                        rows="8" required
-                                                        placeholder="Contoh:&#10;1. Kocok telur&#10;2. Campur tepung dan susu&#10;3. Aduk hingga rata">
-                                                        @php
-                                                            // Handle existing data
-                                                            $instructions = $recipe->instructions;
-
-                                                            // Initialize $steps as a string
-                                                            $steps = '';
-
-                                                            // Handle old input first
-                                                            if (old('instructions')) {
-                                                                $steps = old('instructions');
-                                                            }
-                                                            // Handle data from database
-                                                            else {
-                                                                // If instructions is a JSON string
-                                                                if (is_string($instructions)) {
-                                                                    $decoded = json_decode($instructions, true);
-
-                                                                    // If successfully decoded to array
-                                                                    if (is_array($decoded)) {
-                                                                        // Handle potential nested JSON structure
-                                                                        if (
-                                                                            isset($decoded[0]) &&
-                                                                            is_string($decoded[0])
-                                                                        ) {
-                                                                            $nestedDecoded = json_decode(
-                                                                                $decoded[0],
-                                                                                true,
-                                                                            );
-                                                                            if (is_array($nestedDecoded)) {
-                                                                                $steps = implode(
-                                                                                    "\n",
-                                                                                    array_map('trim', $nestedDecoded),
-                                                                                );
-                                                                            } else {
-                                                                                $steps = implode(
-                                                                                    "\n",
-                                                                                    array_map('trim', $decoded),
-                                                                                );
-                                                                            }
-                                                                        } else {
-                                                                            $steps = implode(
-                                                                                "\n",
-                                                                                array_map('trim', $decoded),
-                                                                            );
-                                                                        }
-                                                                    } else {
-                                                                        // If not a valid JSON, use as-is
-                                                                        $steps = trim($instructions);
-                                                                    }
-                                                                }
-                                                                // If instructions is already an array
-                                                                elseif (is_array($instructions)) {
-                                                                    $steps = implode(
-                                                                        "\n",
-                                                                        array_map('trim', $instructions),
-                                                                    );
-                                                                }
-                                                            }
-
-                                                            // Final trim to remove any extra whitespace
-                                                            $steps = trim($steps);
-                                                        @endphp
-                                        {{ $steps }}
-                                                </textarea>
-
+    rows="8" required
+    placeholder="Contoh:&#10;1. Kocok telur&#10;2. Campur tepung dan susu&#10;3. Aduk hingga rata">
+@php
+    // Handle old input first
+    if (old('instructions')) {
+        echo old('instructions');
+    }
+    // Then handle database data
+    elseif (isset($recipe->instructions)) {
+        // If it's JSON format
+        if (is_string($recipe->instructions) && $decoded = json_decode($recipe->instructions, true)) {
+            echo implode("\n", array_map('trim', $decoded));
+        }
+        // If it's array
+        elseif (is_array($recipe->instructions)) {
+            echo implode("\n", array_map('trim', $recipe->instructions));
+        }
+        // If it's plain text
+        else {
+            // Normalize line endings and remove empty lines
+            $lines = preg_split('/\R/', $recipe->instructions);
+            echo implode("\n", array_filter(array_map('trim', $lines)));
+        }
+    }
+@endphp
+</textarea>
                                                     @error('instructions')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
