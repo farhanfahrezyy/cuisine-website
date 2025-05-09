@@ -21,11 +21,14 @@ class RecipeController extends Controller
             ->when($request->input('name'), function ($query, $searchTerm) {
                 return $query->where('name', 'like', '%' . $searchTerm . '%')
                     ->orWhereHas('category', function ($query) use ($searchTerm) {
-                        $query->where('name', 'like', '%' . $searchTerm . '%');  // Changed 'category' to 'name'
+                        $query->where('name', 'like', '%' . $searchTerm . '%');
                     });
             })
             ->when($request->input('sort'), function ($query, $sort) {
                 return $query->orderBy('price', $sort);
+            }, function ($query) {
+                // Default to ordering by creation date (newest first) if no sort is specified
+                return $query->orderBy('created_at', 'desc');
             })
             ->when($request->input('min_price'), function ($query, $minPrice) {
                 return $query->where('price', '>=', $minPrice);
@@ -33,9 +36,9 @@ class RecipeController extends Controller
             ->when($request->input('max_price'), function ($query, $maxPrice) {
                 return $query->where('price', '<=', $maxPrice);
             })
-            ->paginate($request->input('pagination', 10)); // Default pagination to 10 items per page
+            ->paginate($request->input('pagination', 10));
 
-        return view('admin.recipes.index', compact('recipes', 'type_menu'));
+return view('admin.recipes.index', compact('recipes', 'type_menu'));
     }
 
     public function create()
