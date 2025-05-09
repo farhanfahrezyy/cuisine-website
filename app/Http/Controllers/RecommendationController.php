@@ -11,9 +11,10 @@ class RecommendationController extends Controller
 {
     /**
      * Display a listing of recommended recipes based on user preferences.
+     * Only shows recipes that match ALL user preference criteria.
      */
     public function index() {
-        
+
         if (!Auth::check()) {
             return redirect()->route('user.login.form')
                 ->with('error', 'You must be logged in to view recommendations.');
@@ -41,6 +42,9 @@ class RecommendationController extends Controller
         $primaryIngredients = array_map('strtolower', $primaryIngredients);
         $secondaryIngredients = array_map('strtolower', $secondaryIngredients);
 
+        // Combine primary and secondary ingredients for ingredient matching
+        $allUserIngredients = array_merge($primaryIngredients, $secondaryIngredients);
+
         // Spiciness is stored as ["sedang"], need to get the first element
         $spicinessValue = is_string($userPreference->spiciness) ? json_decode($userPreference->spiciness, true) : $userPreference->spiciness;
         if (is_array($spicinessValue) && count($spicinessValue) > 0) {
@@ -58,11 +62,20 @@ class RecommendationController extends Controller
 
         $spicinessInEnglish = $spicinessMap[$spiciness] ?? 'medium';
 
-        // Query recipes and calculate relevance scores
-        $recipes = Recipe::all()->map(function($recipe) use ($countries, $primaryIngredients, $secondaryIngredients, $spicinessInEnglish, $spicinessMap) {
-            $score = 0;
+        // Function to normalize ingredient names for comparison (handle underscores and case)
+        $normalizeIngredient = function($ingredient) {
+            // Replace underscores with spaces
+            $normalized = str_replace('_', ' ', $ingredient);
+            // Convert to lowercase for case-insensitive comparison
+            return strtolower(trim($normalized));
+        };
 
-            // Country matching - ensure we're comparing safely
+        // Get all recipes
+        $allRecipes = Recipe::all();
+        $matchingRecipes = collect();
+
+        foreach ($allRecipes as $recipe) {
+            // Check country match
             $recipeCountry = $recipe->country;
             if (is_string($recipeCountry) && (substr($recipeCountry, 0, 1) === '[')) {
                 $recipeCountry = json_decode($recipeCountry, true);
@@ -70,12 +83,36 @@ class RecommendationController extends Controller
                     $recipeCountry = $recipeCountry[0];
                 }
             }
-
-            // Convert recipe country to lowercase for case-insensitive comparison
             $recipeCountry = is_string($recipeCountry) ? strtolower($recipeCountry) : '';
 
-            if (!empty($recipeCountry) && in_array($recipeCountry, $countries)) {
-                $score += 2;
+            // If countries preference is empty, consider it a match by default
+            // Otherwise, check if the recipe country is in user's preferred countries
+            $countryMatches = empty($countries) || in_array($recipeCountry, $countries);
+
+            if (!$countryMatches) {
+                continue; // Skip this recipe if country doesn't match
+            }
+
+            // Check spiciness match
+            $recipeSpiciness = $recipe->spiciness;
+            if (is_string($recipeSpiciness) && (substr($recipeSpiciness, 0, 1) === '[')) {
+                $recipeSpiciness = json_decode($recipeSpiciness, true);
+                if (is_array($recipeSpiciness) && count($recipeSpiciness) > 0) {
+                    $recipeSpiciness = $recipeSpiciness[0];
+                }
+            }
+            $recipeSpiciness = is_string($recipeSpiciness) ? strtolower($recipeSpiciness) : '';
+
+            // Map recipe spiciness from Indonesian to English if needed
+            if (array_key_exists($recipeSpiciness, $spicinessMap)) {
+                $recipeSpiciness = $spicinessMap[$recipeSpiciness];
+            }
+
+            // If spiciness preference exists, it must match
+            $spicinessMatches = empty($spicinessInEnglish) || $recipeSpiciness === $spicinessInEnglish;
+
+            if (!$spicinessMatches) {
+                continue; // Skip this recipe if spiciness doesn't match
             }
 
             // Parse recipe ingredients - ensure we have an array to work with
@@ -97,112 +134,90 @@ class RecommendationController extends Controller
                 }
             }
 
-            // Function to normalize ingredient names for comparison (handle underscores and case)
-            $normalizeIngredient = function($ingredient) {
-                // Replace underscores with spaces
-                $normalized = str_replace('_', ' ', $ingredient);
-                // Convert to lowercase for case-insensitive comparison
-                return strtolower(trim($normalized));
-            };
-
             // Normalize recipe ingredients for better matching
             $normalizedRecipeIngredients = [];
             foreach ($recipeIngredients as $ingredient) {
                 $normalizedRecipeIngredients[] = $normalizeIngredient($ingredient);
             }
 
-            // Check primary ingredients (higher score impact)
-            foreach ($primaryIngredients as $ingredient) {
-                $found = false;
-                $normalizedIngredient = $normalizeIngredient($ingredient);
+            // Check if at least one user ingredient is present in the recipe
+            $ingredientMatches = false;
 
-                // Check if normalized ingredient exists in normalized recipe ingredients array
-                if (in_array($normalizedIngredient, $normalizedRecipeIngredients)) {
-                    $found = true;
-                }
-                // Also check in the raw string if it's a string (both with and without underscores)
-                elseif (is_string($recipe->ingredients)) {
-                    // Convert recipe ingredients to lowercase for case-insensitive comparison
-                    $lowerRecipeIngredients = strtolower($recipe->ingredients);
-                    
-                    // Check with original format
-                    if (stripos($lowerRecipeIngredients, $ingredient) !== false) {
-                        $found = true;
-                    }
-                    // Check with underscores replaced with spaces
-                    elseif (stripos($lowerRecipeIngredients, $normalizedIngredient) !== false) {
-                        $found = true;
-                    }
-                    // Check with spaces replaced with underscores
-                    elseif (stripos($lowerRecipeIngredients, str_replace(' ', '_', $ingredient)) !== false) {
-                        $found = true;
-                    }
-                }
+            // If no ingredients are specified, consider it a match by default
+            if (empty($allUserIngredients)) {
+                $ingredientMatches = true;
+            } else {
+                foreach ($allUserIngredients as $ingredient) {
+                    $normalizedIngredient = $normalizeIngredient($ingredient);
 
-                if ($found) {
-                    $score += 3;
+                    // Check in normalized ingredient array
+                    if (in_array($normalizedIngredient, $normalizedRecipeIngredients)) {
+                        $ingredientMatches = true;
+                        break;
+                    }
+                    // Check in raw string if it's a string
+                    elseif (is_string($recipe->ingredients)) {
+                        $lowerRecipeIngredients = strtolower($recipe->ingredients);
+
+                        if (
+                            stripos($lowerRecipeIngredients, $ingredient) !== false ||
+                            stripos($lowerRecipeIngredients, $normalizedIngredient) !== false ||
+                            stripos($lowerRecipeIngredients, str_replace(' ', '_', $ingredient)) !== false
+                        ) {
+                            $ingredientMatches = true;
+                            break;
+                        }
+                    }
                 }
             }
 
-            // Check secondary ingredients (lower score impact)
-            foreach ($secondaryIngredients as $ingredient) {
-                $found = false;
-                $normalizedIngredient = $normalizeIngredient($ingredient);
-
-                // Check if normalized ingredient exists in normalized recipe ingredients array
-                if (in_array($normalizedIngredient, $normalizedRecipeIngredients)) {
-                    $found = true;
-                }
-                // Also check in the raw string if it's a string (both with and without underscores)
-                elseif (is_string($recipe->ingredients)) {
-                    // Convert recipe ingredients to lowercase for case-insensitive comparison
-                    $lowerRecipeIngredients = strtolower($recipe->ingredients);
-                    
-                    // Check with original format
-                    if (stripos($lowerRecipeIngredients, $ingredient) !== false) {
-                        $found = true;
-                    }
-                    // Check with underscores replaced with spaces
-                    elseif (stripos($lowerRecipeIngredients, $normalizedIngredient) !== false) {
-                        $found = true;
-                    }
-                    // Check with spaces replaced with underscores
-                    elseif (stripos($lowerRecipeIngredients, str_replace(' ', '_', $ingredient)) !== false) {
-                        $found = true;
-                    }
-                }
-
-                if ($found) {
-                    $score += 1;
-                }
+            if (!$ingredientMatches) {
+                continue; // Skip this recipe if no ingredients match
             }
 
-            // Match spiciness level - ensure we're comparing safely
-            $recipeSpiciness = $recipe->spiciness;
+            // If we got here, this recipe matches all criteria
+            // Calculate relevance score for sorting
+            $score = 0;
 
-            // Handle JSON string format if needed
-            if (is_string($recipeSpiciness) && (substr($recipeSpiciness, 0, 1) === '[')) {
-                $recipeSpiciness = json_decode($recipeSpiciness, true);
-                if (is_array($recipeSpiciness) && count($recipeSpiciness) > 0) {
-                    $recipeSpiciness = $recipeSpiciness[0];
-                }
+            // Country match
+            if (in_array($recipeCountry, $countries)) {
+                $score += 2;
             }
 
-            // Convert recipe spiciness to lowercase for case-insensitive comparison
-            $recipeSpiciness = is_string($recipeSpiciness) ? strtolower($recipeSpiciness) : '';
-
-            // Map recipe spiciness from Indonesian to English if needed
-            if (array_key_exists($recipeSpiciness, $spicinessMap)) {
-                $recipeSpiciness = $spicinessMap[$recipeSpiciness];
-            }
-
+            // Spiciness match
             if ($recipeSpiciness === $spicinessInEnglish) {
                 $score += 2;
             }
 
+            // Primary ingredients matches (higher score)
+            foreach ($primaryIngredients as $ingredient) {
+                $normalizedIngredient = $normalizeIngredient($ingredient);
+
+                if (in_array($normalizedIngredient, $normalizedRecipeIngredients) ||
+                    (is_string($recipe->ingredients) &&
+                     (stripos(strtolower($recipe->ingredients), $ingredient) !== false ||
+                      stripos(strtolower($recipe->ingredients), $normalizedIngredient) !== false ||
+                      stripos(strtolower($recipe->ingredients), str_replace(' ', '_', $ingredient)) !== false))) {
+                    $score += 3;
+                }
+            }
+
+            // Secondary ingredients matches (lower score)
+            foreach ($secondaryIngredients as $ingredient) {
+                $normalizedIngredient = $normalizeIngredient($ingredient);
+
+                if (in_array($normalizedIngredient, $normalizedRecipeIngredients) ||
+                    (is_string($recipe->ingredients) &&
+                     (stripos(strtolower($recipe->ingredients), $ingredient) !== false ||
+                      stripos(strtolower($recipe->ingredients), $normalizedIngredient) !== false ||
+                      stripos(strtolower($recipe->ingredients), str_replace(' ', '_', $ingredient)) !== false))) {
+                    $score += 1;
+                }
+            }
+
             $recipe->relevance_score = $score;
-            return $recipe;
-        });
+            $matchingRecipes->push($recipe);
+        }
 
         // Calculate max possible score for percentage calculation in the view
         $maxPossibleScore = 2 + // Country match
@@ -211,7 +226,7 @@ class RecommendationController extends Controller
                            2; // Spiciness match
 
         // Sort recipes by relevance score (highest first) and take top 10
-        $recommendedRecipes = $recipes->sortByDesc('relevance_score')->take(10);
+        $recommendedRecipes = $matchingRecipes->sortByDesc('relevance_score')->take(10);
 
         return view('main.recommendations.index', [
             'recommendations' => $recommendedRecipes,
