@@ -71,15 +71,15 @@ class HomeController extends Controller
         $searchQuery = $request->input('query');
 
         $recipes = Recipe::where('name', 'LIKE', "%{$searchQuery}%")
-                        ->orWhere('country', 'LIKE', "%{$searchQuery}%")
-                        ->orWhere('detail', 'LIKE', "%{$searchQuery}%")
+                        // ->orWhere('country', 'LIKE', "%{$searchQuery}%")
+                        // ->orWhere('detail', 'LIKE', "%{$searchQuery}%")
                         ->paginate(9);
 
         $recipes->load('reviews');
 
         // Get articles for the article section (needed for your current view)
         $articles = Article::where('title', 'LIKE', "%{$searchQuery}%")
-                    ->orWhere('detail', 'LIKE', "%{$searchQuery}%")
+                    // ->orWhere('detail', 'LIKE', "%{$searchQuery}%")
                     ->latest('news_date')
                     ->paginate(5);
 
@@ -93,15 +93,15 @@ class HomeController extends Controller
         $searchQuery = $request->input('query');
 
         $recipes = Recipe::where('name', 'LIKE', "%{$searchQuery}%")
-                        ->orWhere('country', 'LIKE', "%{$searchQuery}%")
-                        ->orWhere('detail', 'LIKE', "%{$searchQuery}%")
+                        // ->orWhere('country', 'LIKE', "%{$searchQuery}%")
+                        // ->orWhere('detail', 'LIKE', "%{$searchQuery}%")
                         ->paginate(9);
 
         $recipes->load('reviews');
 
         // Get articles for the article section (needed for your current view)
         $articles = Article::where('title', 'LIKE', "%{$searchQuery}%")
-                    ->orWhere('detail', 'LIKE', "%{$searchQuery}%")
+                    // ->orWhere('detail', 'LIKE', "%{$searchQuery}%")
                     ->latest('news_date')
                     ->paginate(5);
 

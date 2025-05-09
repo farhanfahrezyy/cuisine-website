@@ -59,11 +59,11 @@ class RecipeController extends Controller
             'premium' => 'required|in:0,1',
             'price' => 'required|numeric|min:0',
             'spiciness' => 'required|in:low,medium,high',
-            'country' => 'nullable|string|max:100',
-            'detail' => 'nullable|string',
+            'country' => 'required|string|max:100',
+            'detail' => 'required|string',
             'ingredients' => 'required|string',
             'instructions' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10048'
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:10048'
         ], [
             // Custom error messages
             'name.required' => 'Nama resep harus diisi',
@@ -133,11 +133,11 @@ class RecipeController extends Controller
             'premium' => 'required|in:0,1',
             'price' => 'required|numeric|min:0',
             'spiciness' => 'required|in:low,medium,high',
-            'country' => 'nullable|string|max:100',
-            'detail' => 'nullable|string',
+            'country' => 'required|string|max:100',
+            'detail' => 'required|string',
             'ingredients' => 'required|string',
             'instructions' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp |max:2048'
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp |max:10480'
         ]);
 
         // Convert ingredients and instructions to JSON
