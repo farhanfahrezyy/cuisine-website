@@ -159,7 +159,7 @@ class PaymentController extends Controller
             Log::info('Payment process completed successfully');
 
             return redirect()->to('/payment/view/' . $recipe->id)->with('success', 'Pembayaran telah diproses. Menunggu konfirmasi admin.');
-            
+
 
         } catch (\Exception $e) {
             // Log errors
@@ -227,20 +227,21 @@ class PaymentController extends Controller
     public function updateStatus(Request $request, $id)
     {
 
-
-        $request->validate([
-            'status' => 'required|in:approved,rejected',
-        ]);
-
         $payment = Payment::findOrFail($id);
-        $payment->status = $request->status;
 
-        if (!$payment->save()) {
-            return redirect()->back()
-                ->with('error', 'Gagal memperbarui status pembayaran.');
-        }
+    // Prevent status changes if payment is already approved or rejected
+    if ($payment->status !== 'pending') {
+        return redirect()->back()->with('error', 'Status pembayaran yang sudah diproses tidak dapat diubah.');
+    }
 
-        return redirect()->route('admin.payments.show', $payment->id)
-            ->with('success', 'Status pembayaran berhasil diperbarui.');
+    $validatedData = $request->validate([
+        'status' => 'required|in:pending,approved,rejected',
+    ]);
+
+    $payment->status = $validatedData['status'];
+    $payment->save();
+
+    return redirect()->back()->with('success', 'Status pembayaran berhasil diperbarui.');
+
     }
 }
