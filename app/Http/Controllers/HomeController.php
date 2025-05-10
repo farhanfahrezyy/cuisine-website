@@ -77,23 +77,35 @@ class HomeController extends Controller
      */
     public function search(Request $request)
     {
-        $searchQuery = $request->input('query');
-        
-        $recipes = Recipe::with('category')
-            ->when($searchQuery, function ($query, $searchTerm) {
-                return $query->where('name', 'like', '%' . $searchTerm . '%');
-            })
-            ->paginate(9);
+        $searchQuery = $request->input('query', ''); // Default empty string jika null
 
-        $recipes->load('reviews');
+        // Query Recipes
+        $recipesQuery = Recipe::query();
 
+        if ($searchQuery) {
+            $recipesQuery->where('name', 'like', '%' . $searchQuery . '%')
+                ->orWhereHas('category', function ($q) use ($searchQuery) {
+                    $q->where('name', 'like', '%' . $searchQuery . '%');
+                });
+        }
 
-        $articles = Article::where('title', 'LIKE', "%{$searchQuery}%")
-            // ->orWhere('detail', 'LIKE', "%{$searchQuery}%")
-            ->latest('news_date')
-            ->paginate(5);
+        $recipes = $recipesQuery->with(['category', 'reviews'])
+            ->simplePaginate(9)
+            ->appends($request->query()); // Alternatif withQueryString()
 
+        // Query Articles
+        $articlesQuery = Article::query();
 
+        if ($searchQuery) {
+            $articlesQuery->where(function ($q) use ($searchQuery) {
+                $q->where('title', 'like', '%' . $searchQuery . '%')
+                    ->orWhere('detail', 'like', '%' . $searchQuery . '%');
+            });
+        }
+
+        $articles = $articlesQuery->latest('created_at') // Ganti dengan kolom yang ada
+            ->paginate(5)
+            ->appends($request->query());
 
         return view('main.index', compact('recipes', 'articles', 'searchQuery'));
     }
