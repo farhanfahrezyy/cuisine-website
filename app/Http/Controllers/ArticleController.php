@@ -89,7 +89,7 @@ class ArticleController extends Controller
             'title' => 'required|max:255',
             'detail' => 'required',
             'news_date' => 'required|date',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Assign required data
