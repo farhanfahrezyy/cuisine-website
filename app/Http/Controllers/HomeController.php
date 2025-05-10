@@ -27,21 +27,30 @@ class HomeController extends Controller
         switch ($sort) {
             case 'top-rated':
                 $query->leftJoin('reviews', 'recipes.id', '=', 'reviews.recipe_id')
-                      ->select('recipes.*', DB::raw('COALESCE(AVG(reviews.rating), 0) as avg_rating'))
-                      ->groupBy(
-                          'recipes.id', 'recipes.category_id', 'recipes.user_preference_id',
-                          'recipes.name', 'recipes.price', 'recipes.instructions',
-                          'recipes.image', 'recipes.country', 'recipes.detail',
-                          'recipes.ingredients', 'recipes.spiciness', 'recipes.premium',
-                          'recipes.created_at', 'recipes.updated_at'
-                      )
-                      ->orderByDesc('avg_rating');
+                    ->select('recipes.*', DB::raw('COALESCE(AVG(reviews.rating), 0) as avg_rating'))
+                    ->groupBy(
+                        'recipes.id',
+                        'recipes.category_id',
+                        'recipes.user_preference_id',
+                        'recipes.name',
+                        'recipes.price',
+                        'recipes.instructions',
+                        'recipes.image',
+                        'recipes.country',
+                        'recipes.detail',
+                        'recipes.ingredients',
+                        'recipes.spiciness',
+                        'recipes.premium',
+                        'recipes.created_at',
+                        'recipes.updated_at'
+                    )
+                    ->orderByDesc('avg_rating');
                 break;
             case 'trending':
-                $query->withCount(['reviews' => function($query) {
-                          $query->where('created_at', '>=', now()->subDays(30));
-                      }])
-                      ->orderByDesc('reviews_count');
+                $query->withCount(['reviews' => function ($query) {
+                    $query->where('created_at', '>=', now()->subDays(30));
+                }])
+                    ->orderByDesc('reviews_count');
                 break;
             case 'latest':
             default:
@@ -69,19 +78,20 @@ class HomeController extends Controller
     public function search(Request $request)
     {
         $searchQuery = $request->input('query');
-
-        $recipes = Recipe::where('name', 'LIKE', "%{$searchQuery}%")
-                        // ->orWhere('country', 'LIKE', "%{$searchQuery}%")
-                        // ->orWhere('detail', 'LIKE', "%{$searchQuery}%")
-                        ->paginate(9);
+        
+        $recipes = Recipe::with('category')
+            ->when($searchQuery, function ($query, $searchTerm) {
+                return $query->where('name', 'like', '%' . $searchTerm . '%');
+            })
+            ->paginate(9);
 
         $recipes->load('reviews');
 
-        // Get articles for the article section (needed for your current view)
+
         $articles = Article::where('title', 'LIKE', "%{$searchQuery}%")
-                    // ->orWhere('detail', 'LIKE', "%{$searchQuery}%")
-                    ->latest('news_date')
-                    ->paginate(5);
+            // ->orWhere('detail', 'LIKE', "%{$searchQuery}%")
+            ->latest('news_date')
+            ->paginate(5);
 
 
 
@@ -93,17 +103,17 @@ class HomeController extends Controller
         $searchQuery = $request->input('query');
 
         $recipes = Recipe::where('name', 'LIKE', "%{$searchQuery}%")
-                        // ->orWhere('country', 'LIKE', "%{$searchQuery}%")
-                        // ->orWhere('detail', 'LIKE', "%{$searchQuery}%")
-                        ->paginate(9);
+            // ->orWhere('country', 'LIKE', "%{$searchQuery}%")
+            // ->orWhere('detail', 'LIKE', "%{$searchQuery}%")
+            ->paginate(9);
 
         $recipes->load('reviews');
 
         // Get articles for the article section (needed for your current view)
         $articles = Article::where('title', 'LIKE', "%{$searchQuery}%")
-                    // ->orWhere('detail', 'LIKE', "%{$searchQuery}%")
-                    ->latest('news_date')
-                    ->paginate(5);
+            // ->orWhere('detail', 'LIKE', "%{$searchQuery}%")
+            ->latest('news_date')
+            ->paginate(5);
 
 
 
@@ -119,8 +129,8 @@ class HomeController extends Controller
     public function cuisine($cuisine)
     {
         $recipes = Recipe::where('country', $cuisine)
-                        ->where('price', 0)  // Assuming free recipes have price of 0
-                        ->paginate(9);
+            ->where('price', 0)  // Assuming free recipes have price of 0
+            ->paginate(9);
 
         $recipes->load('reviews');
 
@@ -139,8 +149,8 @@ class HomeController extends Controller
     public function premium($cuisine)
     {
         $recipes = Recipe::where('country', $cuisine)
-                        ->where('price', '>', 0)  // Premium recipes have price > 0
-                        ->paginate(9);
+            ->where('price', '>', 0)  // Premium recipes have price > 0
+            ->paginate(9);
 
         $recipes->load('reviews');
 
@@ -149,7 +159,4 @@ class HomeController extends Controller
 
         return view('main.index', compact('recipes', 'articles'));
     }
-
-
-
 }
