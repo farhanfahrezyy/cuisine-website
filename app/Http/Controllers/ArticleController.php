@@ -23,8 +23,8 @@ class ArticleController extends Controller
         if ($request->has('search') && $request->search) {
             $searchTerm = $request->search;
             $articles->where(function($query) use ($searchTerm) {
-                $query->where('title', 'LIKE', "%{$searchTerm}%")
-                      ->orWhere('detail', 'LIKE', "%{$searchTerm}%");
+                $query->where('title', 'LIKE', "%{$searchTerm}%");
+                    //   ->orWhere('detail', 'LIKE', "%{$searchTerm}%");
             });
         }
 
