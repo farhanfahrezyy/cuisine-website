@@ -663,19 +663,35 @@
 
         $(document).ready(function() {
             // Premium status price handling
-            $('#premium').on('change', function() {
+            function togglePriceField() {
                 const price = $('#price');
-                if ($(this).val() === '1') { // Premium
+                if ($('#premium').val() === '1') { // Premium
+                    price.prop('readonly', false);
                     price.prop('min', 1);
-                    if (price.val() == 0) {
+                    if (parseInt(price.val()) === 0) {
                         price.val(10000); // default value for premium
                     }
                 } else { // Regular
+                    // Jangan gunakan disabled, tapi gunakan readonly agar nilai tetap dikirim
+                    price.prop('readonly', true);
                     price.prop('min', 0);
                     price.val(0);
                 }
+            }
+
+            // Run on page load to set initial state
+            togglePriceField();
+
+            // Run when premium selection changes
+            $('#premium').on('change', function() {
+                togglePriceField();
             });
 
+            // Tambahkan event listener untuk form submission
+            $('form').on('submit', function() {
+                // Pastikan field price selalu memiliki nilai saat submit
+                $('#price').prop('readonly', false);
+            });
 
             // Initialize select2 if needed
             if ($.fn.select2) {
