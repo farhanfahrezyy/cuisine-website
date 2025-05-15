@@ -9,7 +9,7 @@
     <meta http-equiv="Expires" content="0">
 
     <title>Cuisine Website</title>
-    <link rel="icon" href="{{ asset('images/icon-c.png') }}" type="image/png">
+    <link rel="icon" href="{{ asset('images/icon-cuisine.png') }}" type="image/png">
     <script src="{{ asset('js/uikit.js') }}"></script>
     <link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon.png') }}">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600&display=swap" rel="stylesheet">
