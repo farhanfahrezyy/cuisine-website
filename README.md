@@ -102,7 +102,3 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
 ## License
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for more information.
-
----
-
-Let me know if you want more sections or if you’d like me to tailor this further for your project specifics!
