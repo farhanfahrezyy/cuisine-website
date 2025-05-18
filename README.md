@@ -1,6 +1,3 @@
-Great! Here’s a draft template for an improved `README.md` tailored for your cuisine-website project. You can copy, edit, and expand on this to suit your needs:
-
----
 
 # Cuisine Website
 
