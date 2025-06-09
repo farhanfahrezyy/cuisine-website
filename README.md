@@ -36,8 +36,7 @@ A modern web application for discovering, sharing, and managing recipes. Built w
 ## Screenshots
 
 <!-- Include images/screenshots of your app here -->
-
-![Recipe Detail](![Uploading image.png…]()
+![image](https://github.com/user-attachments/assets/66960e25-8cfc-4cee-ac87-8757ad8d9ce6)
 
 
 
